@@ -1,0 +1,1074 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <title>GALAGA_CONSOLE // v2.1</title>
+  <style>
+    :root {
+      --bg-main: #040806;
+      --bg-card: #09120c;
+      --bg-card-hover: #0e1e13;
+      --border-color: #173822;
+      --border-accent: #225432;
+      --text-main: #33ff66;
+      --text-dim: #1ea343;
+      --text-muted: #126329;
+      --text-bright: #8aefaa;
+      --accent-gold: #fbbf24;
+      --accent-red: #ff3344;
+      --accent-yellow: #f59e0b;
+      --accent-cyan: #22d3ee;
+      --font-mono: 'Courier New', Courier, monospace;
+      --highlight-bg: #123d20;
+      --canvas-bg: #020503;
+    }
+
+    [data-theme="amber"] {
+      --bg-main: #0c0a06;
+      --bg-card: #18130b;
+      --bg-card-hover: #261f12;
+      --border-color: #423018;
+      --border-accent: #664a24;
+      --text-main: #f59e0b;
+      --text-dim: #b45309;
+      --text-muted: #78350f;
+      --text-bright: #fde68a;
+      --accent-gold: #38bdf8;
+      --highlight-bg: #38200b;
+      --canvas-bg: #060402;
+    }
+
+    [data-theme="mauve"] {
+      --bg-main: #0b060a;
+      --bg-card: #150b13;
+      --bg-card-hover: #21121e;
+      --border-color: #3b1d33;
+      --border-accent: #5c2d50;
+      --text-main: #e879f9;
+      --text-dim: #a228b5;
+      --text-muted: #6b1557;
+      --text-bright: #f5d0fe;
+      --accent-gold: #f6d860;
+      --highlight-bg: #35142e;
+      --canvas-bg: #050204;
+    }
+
+    [data-theme="dark"] {
+      --bg-main: #0d1117;
+      --bg-card: #161b22;
+      --bg-card-hover: #21262d;
+      --border-color: #30363d;
+      --border-accent: #484f58;
+      --text-main: #c9d1d9;
+      --text-dim: #8b949e;
+      --text-muted: #484f58;
+      --text-bright: #ffffff;
+      --accent-gold: #58a6ff;
+      --highlight-bg: #1f2937;
+      --canvas-bg: #080a0f;
+    }
+
+    [data-theme="light"] {
+      --bg-main: #eef2f6;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --border-color: #cbd5e1;
+      --border-accent: #94a3b8;
+      --text-main: #0f172a;
+      --text-dim: #475569;
+      --text-muted: #94a3b8;
+      --text-bright: #020617;
+      --accent-gold: #2563eb;
+      --highlight-bg: #e2e8f0;
+      --canvas-bg: #f8fafc;
+    }
+
+    [data-theme="blackedout"] {
+      --bg-main: #000000;
+      --bg-card: #080808;
+      --bg-card-hover: #121212;
+      --border-color: #222222;
+      --border-accent: #333333;
+      --text-main: #e0e0e0;
+      --text-dim: #888888;
+      --text-muted: #444444;
+      --text-bright: #ffffff;
+      --accent-gold: #38bdf8;
+      --highlight-bg: #1a1a1a;
+      --canvas-bg: #000000;
+    }
+
+    [data-theme="red"] {
+      --bg-main: #120404;
+      --bg-card: #1c0808;
+      --bg-card-hover: #2a0d0d;
+      --border-color: #4a1515;
+      --border-accent: #6b2121;
+      --text-main: #ff4d4d;
+      --text-dim: #c82323;
+      --text-muted: #7a1515;
+      --text-bright: #ffb3b3;
+      --accent-gold: #fbbf24;
+      --highlight-bg: #3f1212;
+      --canvas-bg: #080202;
+    }
+
+    [data-theme="blue"] {
+      --bg-main: #040914;
+      --bg-card: #0a1124;
+      --bg-card-hover: #101c36;
+      --border-color: #1e3a8a;
+      --border-accent: #2563eb;
+      --text-main: #60a5fa;
+      --text-dim: #3b82f6;
+      --text-muted: #1d4ed8;
+      --text-bright: #93c5fd;
+      --accent-gold: #fbbf24;
+      --highlight-bg: #1e293b;
+      --canvas-bg: #02050d;
+    }
+
+    [data-theme="cyan"] {
+      --bg-main: #021013;
+      --bg-card: #061a1f;
+      --bg-card-hover: #0b2830;
+      --border-color: #155e75;
+      --border-accent: #0891b2;
+      --text-main: #22d3ee;
+      --text-dim: #06b6d4;
+      --text-muted: #0e7490;
+      --text-bright: #67e8f9;
+      --accent-gold: #fde047;
+      --highlight-bg: #0f3443;
+      --canvas-bg: #01080a;
+    }
+
+    [data-theme="inverted-green"] {
+      --bg-main: #e8f5e9;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f8f1;
+      --border-color: #a5d6a7;
+      --border-accent: #66bb6a;
+      --text-main: #1b5e20;
+      --text-dim: #2e7d32;
+      --text-muted: #4caf50;
+      --text-bright: #0d3b10;
+      --accent-gold: #d97706;
+      --highlight-bg: #c8e6c9;
+      --canvas-bg: #f1f8f1;
+    }
+
+    [data-theme="gold"] {
+      --bg-main: #141106;
+      --bg-card: #1f1b0a;
+      --bg-card-hover: #2b250e;
+      --border-color: #5c4d16;
+      --border-accent: #856f21;
+      --text-main: #fde047;
+      --text-dim: #ca8a04;
+      --text-muted: #854d0e;
+      --text-bright: #fef08a;
+      --accent-gold: #38bdf8;
+      --highlight-bg: #3d3410;
+      --canvas-bg: #0a0803;
+    }
+
+    [data-theme="silver"] {
+      --bg-main: #0f1115;
+      --bg-card: #181c24;
+      --bg-card-hover: #222834;
+      --border-color: #3f4b60;
+      --border-accent: #64748b;
+      --text-main: #cbd5e1;
+      --text-dim: #94a3b8;
+      --text-muted: #64748b;
+      --text-bright: #f8fafc;
+      --accent-gold: #38bdf8;
+      --highlight-bg: #273043;
+      --canvas-bg: #08090c;
+    }
+
+    [data-theme="bronze"] {
+      --bg-main: #120b08;
+      --bg-card: #1c120e;
+      --bg-card-hover: #281a14;
+      --border-color: #5c3320;
+      --border-accent: #8a4d30;
+      --text-main: #fdba74;
+      --text-dim: #f97316;
+      --text-muted: #c2410c;
+      --text-bright: #ffedd5;
+      --accent-gold: #fde047;
+      --highlight-bg: #3b2015;
+      --canvas-bg: #0a0604;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      user-select: none;
+      -webkit-user-select: none;
+      touch-action: manipulation;
+    }
+
+    body {
+      background-color: var(--bg-main);
+      color: var(--text-main);
+      font-family: var(--font-mono);
+      display: flex;
+      justify-content: center;
+      align-items: flex-start;
+      min-height: 100vh;
+      padding: 10px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .terminal-wrapper {
+      width: 100%;
+      max-width: 520px;
+      background-color: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      position: relative;
+    }
+
+    header {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border-bottom: 1px solid var(--border-color);
+      padding-bottom: 10px;
+    }
+
+    .top-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .brand-group {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .window-dots {
+      display: flex;
+      gap: 4px;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+    }
+    .dot-red { background-color: var(--accent-red); }
+    .dot-yellow { background-color: var(--accent-yellow); }
+    .dot-green { background-color: var(--text-main); }
+
+    .brand-title {
+      font-size: 0.85rem;
+      font-weight: bold;
+      letter-spacing: 1px;
+    }
+
+    .version-tag {
+      font-size: 0.7em;
+      color: var(--accent-gold);
+    }
+
+    .header-actions {
+      display: flex;
+      gap: 6px;
+      flex-wrap: wrap;
+    }
+
+    .btn-header {
+      background: var(--bg-main);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 5px 8px;
+      border-radius: 5px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      transition: all 0.2s;
+    }
+
+    .btn-header:active, .btn-header:hover {
+      background: var(--bg-card-hover);
+      border-color: var(--text-main);
+    }
+
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 6px;
+      background: var(--bg-main);
+      padding: 8px;
+      border-radius: 6px;
+      border: 1px solid var(--border-color);
+      text-align: center;
+    }
+
+    .dash-item {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .dash-label {
+      font-size: 0.55rem;
+      color: var(--text-dim);
+      text-transform: uppercase;
+      letter-spacing: 0.5px;
+    }
+
+    .dash-value {
+      font-size: 0.8rem;
+      font-weight: bold;
+      color: var(--text-bright);
+    }
+
+    .viewport-frame {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 3 / 4;
+      background-color: var(--canvas-bg);
+      border: 1px solid var(--border-accent);
+      border-radius: 6px;
+      overflow: hidden;
+    }
+
+    canvas {
+      width: 100%;
+      height: 100%;
+      display: block;
+    }
+
+    .crt-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: linear-gradient(
+        rgba(18, 16, 16, 0) 50%, 
+        rgba(0, 0, 0, 0.35) 50%
+      );
+      background-size: 100% 4px;
+      pointer-events: none;
+      opacity: 0.8;
+      z-index: 5;
+    }
+
+    .touch-controls {
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .control-row {
+      display: flex;
+      gap: 8px;
+    }
+
+    .btn-touch {
+      flex: 1;
+      background: var(--bg-main);
+      color: var(--text-main);
+      border: 1px solid var(--border-color);
+      padding: 12px 6px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      font-weight: bold;
+      text-align: center;
+      cursor: pointer;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .btn-touch:active, .btn-touch.active {
+      background: var(--highlight-bg);
+      border-color: var(--text-main);
+      color: var(--text-bright);
+    }
+
+    .btn-fire {
+      flex: 1.2;
+      border-color: var(--border-accent);
+    }
+
+    .btn-autofire.active {
+      background: var(--highlight-bg);
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .touch-hint {
+      position: absolute;
+      bottom: 8px;
+      left: 0; right: 0;
+      text-align: center;
+      font-size: 0.6rem;
+      color: var(--text-dim);
+      pointer-events: none;
+      z-index: 6;
+      letter-spacing: 1px;
+    }
+
+    .footer-info {
+      text-align: center;
+      font-size: 0.6rem;
+      color: var(--text-muted);
+      letter-spacing: 1px;
+    }
+  </style>
+</head>
+<body>
+
+<div class="terminal-wrapper">
+  <header>
+    <div class="top-bar">
+      <div class="brand-group">
+        <div class="window-dots">
+          <div class="dot dot-red"></div>
+          <div class="dot dot-yellow"></div>
+          <div class="dot dot-green"></div>
+        </div>
+        <div class="brand-title">GALAGA_CONSOLE <span class="version-tag">// v2.1</span></div>
+      </div>
+      <div class="header-actions">
+        <button class="btn-header" id="theme-btn">◉ THEME</button>
+        <button class="btn-header" id="audio-btn">🔊 AUDIO</button>
+        <button class="btn-header" id="crt-btn">📺 CRT: ON</button>
+      </div>
+    </div>
+
+    <div class="dashboard-grid">
+      <div class="dash-item">
+        <span class="dash-label">1UP SCORE</span>
+        <span class="dash-value" id="score-val">000000</span>
+      </div>
+      <div class="dash-item">
+        <span class="dash-label">HIGH SCORE</span>
+        <span class="dash-value" id="high-val">000000</span>
+      </div>
+      <div class="dash-item">
+        <span class="dash-label">STAGE</span>
+        <span class="dash-value" id="stage-val">01</span>
+      </div>
+      <div class="dash-item">
+        <span class="dash-label">SHIPS</span>
+        <span class="dash-value" id="lives-val">▲▲▲</span>
+      </div>
+    </div>
+  </header>
+
+  <div class="viewport-frame" id="viewport">
+    <div class="crt-overlay" id="crt-layer"></div>
+    <div class="touch-hint" id="touch-hint">TOUCH & DRAG CANVAS TO STEER</div>
+    <canvas id="gameCanvas" width="400" height="533"></canvas>
+  </div>
+
+  <div class="touch-controls">
+    <div class="control-row">
+      <button class="btn-touch" id="btn-left">◀ MOVE LEFT</button>
+      <button class="btn-touch btn-fire" id="btn-fire">🔥 FIRE</button>
+      <button class="btn-touch" id="btn-right">MOVE RIGHT ▶</button>
+    </div>
+    <div class="control-row">
+      <button class="btn-touch btn-autofire active" id="btn-autofire">⚡ AUTO-FIRE: ON</button>
+      <button class="btn-touch" id="btn-emp">💣 EMP SHOCKWAVE</button>
+    </div>
+  </div>
+
+  <div class="footer-terminal footer-info">
+    SYSTEM // GALAGA DEFENSE CODER · AUTO-SHOOT DEFAULT
+  </div>
+</div>
+
+<script>
+  class SoundEngine {
+    constructor() {
+      this.ctx = null;
+      this.muted = false;
+    }
+    init() {
+      if (!this.ctx) {
+        this.ctx = new (window.AudioContext || window.webkitAudioContext)();
+      }
+      if (this.ctx.state === 'suspended') {
+        this.ctx.resume();
+      }
+    }
+    laser() {
+      if (this.muted || !this.ctx) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sawtooth';
+        osc.frequency.setValueAtTime(800, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(150, this.ctx.currentTime + 0.12);
+        gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.12);
+      } catch(e) {}
+    }
+    explosion() {
+      if (this.muted || !this.ctx) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'square';
+        osc.frequency.setValueAtTime(120, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(30, this.ctx.currentTime + 0.3);
+        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.3);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.3);
+      } catch(e) {}
+    }
+    emp() {
+      if (this.muted || !this.ctx) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.setValueAtTime(150, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(1200, this.ctx.currentTime + 0.4);
+        gain.gain.setValueAtTime(0.15, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.4);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + 0.4);
+      } catch(e) {}
+    }
+    playTone(freq, type, duration) {
+      if (this.muted || !this.ctx) return;
+      try {
+        const osc = this.ctx.createOscillator();
+        const gain = this.ctx.createGain();
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
+        gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
+        gain.gain.linearRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
+        osc.connect(gain);
+        gain.connect(this.ctx.destination);
+        osc.start();
+        osc.stop(this.ctx.currentTime + duration);
+      } catch(e) {}
+    }
+  }
+
+  const audio = new SoundEngine();
+
+  const THEMES = [
+    { name: '', label: '◉ GREEN PHOSPHOR', color: '#33ff66' },
+    { name: 'amber', label: '◉ AMBER PHOSPHOR', color: '#f59e0b' },
+    { name: 'mauve', label: '◉ MAUVE PHOSPHOR', color: '#e879f9' },
+    { name: 'dark', label: '◉ DARK CODER', color: '#c9d1d9' },
+    { name: 'light', label: '◉ LIGHT TERMINAL', color: '#0f172a' },
+    { name: 'blackedout', label: '◉ BLACKED OUT', color: '#ffffff' },
+    { name: 'red', label: '◉ RED THEME', color: '#ff4d4d' },
+    { name: 'blue', label: '◉ BLUE THEME', color: '#60a5fa' },
+    { name: 'cyan', label: '◉ CYAN THEME', color: '#22d3ee' },
+    { name: 'inverted-green', label: '◉ INVERTED GREEN', color: '#1b5e20' },
+    { name: 'gold', label: '◉ GOLD THEME', color: '#fde047' },
+    { name: 'silver', label: '◉ SILVER THEME', color: '#cbd5e1' },
+    { name: 'bronze', label: '◉ BRONZE THEME', color: '#fdba74' }
+  ];
+  let themeIdx = 0;
+
+  const canvas = document.getElementById('gameCanvas');
+  const ctx = canvas.getContext('2d');
+  const scoreVal = document.getElementById('score-val');
+  const highVal = document.getElementById('high-val');
+  const stageVal = document.getElementById('stage-val');
+  const livesVal = document.getElementById('lives-val');
+  const themeBtn = document.getElementById('theme-btn');
+  const audioBtn = document.getElementById('audio-btn');
+  const crtBtn = document.getElementById('crt-btn');
+  const crtLayer = document.getElementById('crt-layer');
+  const autoFireBtn = document.getElementById('btn-autofire');
+
+  const W = canvas.width;
+  const H = canvas.height;
+
+  let score = 0;
+  let highScore = localStorage.getItem('galaga_high_score') || 0;
+  let stage = 1;
+  let lives = 3;
+  let gameState = 'START'; 
+  let autoFire = true; // Enabled by default
+  let crtOn = true;
+
+  highVal.textContent = String(highScore).padStart(6, '0');
+
+  const keys = { left: false, right: false, fire: false };
+
+  let player = {
+    x: W / 2,
+    y: H - 40,
+    w: 24,
+    h: 24,
+    speed: 4.5,
+    dual: false,
+    empCount: 1,
+    cooldown: 0
+  };
+
+  let lasers = [];
+  let enemyLasers = [];
+  let enemies = [];
+  let particles = [];
+  let stars = [];
+  let powerups = [];
+
+  for (let i = 0; i < 60; i++) {
+    stars.push({
+      x: Math.random() * W,
+      y: Math.random() * H,
+      size: Math.random() * 1.8 + 0.5,
+      speed: Math.random() * 1.5 + 0.3
+    });
+  }
+
+  function getThemeColor() {
+    return getComputedStyle(document.documentElement).getPropertyValue('--text-main').trim() || '#33ff66';
+  }
+
+  function spawnEnemies() {
+    enemies = [];
+    const rows = 4;
+    const cols = 8;
+    const spacingX = 36;
+    const spacingY = 30;
+    const startX = (W - (cols * spacingX)) / 2 + spacingX / 2;
+    const startY = 60;
+
+    for (let r = 0; r < rows; r++) {
+      for (let c = 0; c < cols; c++) {
+        let type = r === 0 ? 'boss' : (r === 1 ? 'goei' : 'zako');
+        let hp = type === 'boss' ? 2 : 1;
+        enemies.push({
+          homeX: startX + c * spacingX,
+          homeY: startY + r * spacingY,
+          x: startX + c * spacingX,
+          y: -50 - (r * 30 + c * 10),
+          w: 20,
+          h: 20,
+          type: type,
+          hp: hp,
+          state: 'ENTERING',
+          angle: 0,
+          diveTime: 0
+        });
+      }
+    }
+  }
+
+  function startGame() {
+    score = 0;
+    stage = 1;
+    lives = 3;
+    player.x = W / 2;
+    player.dual = false;
+    player.empCount = 1;
+    scoreVal.textContent = '000000';
+    stageVal.textContent = '01';
+    updateLivesDisplay();
+    spawnEnemies();
+    gameState = 'PLAYING';
+  }
+
+  function updateLivesDisplay() {
+    livesVal.textContent = '▲'.repeat(Math.max(0, lives));
+  }
+
+  function triggerEMP() {
+    if (gameState !== 'PLAYING' || player.empCount <= 0) return;
+    audio.init();
+    audio.emp();
+    player.empCount--;
+    enemyLasers = [];
+    enemies.forEach(e => {
+      if (e.state === 'DIVING') {
+        e.hp--;
+        if (e.hp <= 0) {
+          createExplosion(e.x, e.y);
+          score += 150;
+        }
+      }
+    });
+    enemies = enemies.filter(e => e.hp > 0);
+    scoreVal.textContent = String(score).padStart(6, '0');
+  }
+
+  function createExplosion(x, y) {
+    audio.explosion();
+    const mainColor = getThemeColor();
+    for (let i = 0; i < 16; i++) {
+      particles.push({
+        x: x, y: y,
+        vx: (Math.random() - 0.5) * 6,
+        vy: (Math.random() - 0.5) * 6,
+        life: 1.0,
+        color: mainColor
+      });
+    }
+  }
+
+  function fireLaser() {
+    if (player.cooldown > 0 || gameState !== 'PLAYING') return;
+    audio.init();
+    audio.laser();
+    if (player.dual) {
+      lasers.push({ x: player.x - 8, y: player.y - 10, w: 3, h: 10, speed: 9 });
+      lasers.push({ x: player.x + 8, y: player.y - 10, w: 3, h: 10, speed: 9 });
+    } else {
+      lasers.push({ x: player.x, y: player.y - 10, w: 3, h: 10, speed: 9 });
+    }
+    player.cooldown = 10;
+  }
+
+  function update() {
+    stars.forEach(s => {
+      s.y += s.speed;
+      if (s.y > H) {
+        s.y = 0;
+        s.x = Math.random() * W;
+      }
+    });
+
+    if (gameState !== 'PLAYING') return;
+
+    if (keys.left && player.x > 20) player.x -= player.speed;
+    if (keys.right && player.x < W - 20) player.x += player.speed;
+
+    if (autoFire || keys.fire) {
+      fireLaser();
+    }
+    if (player.cooldown > 0) player.cooldown--;
+
+    lasers.forEach(l => l.y -= l.speed);
+    lasers = lasers.filter(l => l.y > -10);
+
+    enemyLasers.forEach(el => el.y += el.speed);
+    enemyLasers = enemyLasers.filter(el => el.y < H + 10);
+
+    powerups.forEach(p => p.y += 1.8);
+    powerups.forEach(p => {
+      if (Math.hypot(p.x - player.x, p.y - player.y) < 20) {
+        if (p.type === 'DUAL') player.dual = true;
+        if (p.type === 'EMP') player.empCount++;
+        p.collected = true;
+        audio.playTone(880, 'sine', 0.2);
+      }
+    });
+    powerups = powerups.filter(p => !p.collected && p.y < H + 20);
+
+    enemies.forEach(e => {
+      if (e.state === 'ENTERING') {
+        e.y += 3;
+        e.x += Math.sin(e.y * 0.05) * 2;
+        if (e.y >= e.homeY) {
+          e.y = e.homeY;
+          e.x = e.homeX;
+          e.state = 'FORMATION';
+        }
+      } else if (e.state === 'FORMATION') {
+        e.x = e.homeX + Math.sin(Date.now() * 0.002) * 12;
+        if (Math.random() < 0.0015 * stage) {
+          e.state = 'DIVING';
+          e.diveTime = 0;
+        }
+      } else if (e.state === 'DIVING') {
+        e.diveTime += 0.03;
+        e.y += 3.2;
+        e.x += Math.sin(e.diveTime * 3) * 3;
+        if (Math.random() < 0.02) {
+          enemyLasers.push({ x: e.x, y: e.y + 10, speed: 4.5 });
+        }
+        if (e.y > H + 30) {
+          e.y = -30;
+          e.state = 'ENTERING';
+        }
+      }
+
+      lasers.forEach(l => {
+        if (Math.abs(l.x - e.x) < 14 && Math.abs(l.y - e.y) < 14) {
+          e.hp--;
+          l.y = -999;
+          if (e.hp <= 0) {
+            createExplosion(e.x, e.y);
+            score += e.state === 'DIVING' ? 100 : 50;
+            scoreVal.textContent = String(score).padStart(6, '0');
+            if (Math.random() < 0.08) {
+              powerups.push({ x: e.x, y: e.y, type: Math.random() < 0.5 ? 'DUAL' : 'EMP', collected: false });
+            }
+          }
+        }
+      });
+
+      if (Math.hypot(e.x - player.x, e.y - player.y) < 18) {
+        e.hp = 0;
+        createExplosion(e.x, e.y);
+        handlePlayerHit();
+      }
+    });
+
+    enemies = enemies.filter(e => e.hp > 0);
+
+    enemyLasers.forEach(el => {
+      if (Math.hypot(el.x - player.x, el.y - player.y) < 14) {
+        el.y = H + 999;
+        handlePlayerHit();
+      }
+    });
+
+    if (enemies.length === 0) {
+      stage++;
+      stageVal.textContent = String(stage).padStart(2, '0');
+      spawnEnemies();
+    }
+
+    particles.forEach(p => {
+      p.x += p.vx;
+      p.y += p.vy;
+      p.life -= 0.04;
+    });
+    particles = particles.filter(p => p.life > 0);
+  }
+
+  function handlePlayerHit() {
+    createExplosion(player.x, player.y);
+    lives--;
+    player.dual = false;
+    updateLivesDisplay();
+    if (lives <= 0) {
+      gameState = 'GAMEOVER';
+      if (score > highScore) {
+        highScore = score;
+        localStorage.setItem('galaga_high_score', highScore);
+        highVal.textContent = String(highScore).padStart(6, '0');
+      }
+    } else {
+      player.x = W / 2;
+    }
+  }
+
+  function render() {
+    ctx.clearRect(0, 0, W, H);
+    const themeColor = getThemeColor();
+
+    ctx.fillStyle = themeColor;
+    stars.forEach(s => {
+      ctx.globalAlpha = s.speed / 2;
+      ctx.fillRect(s.x, s.y, s.size, s.size);
+    });
+    ctx.globalAlpha = 1.0;
+
+    if (gameState === 'PLAYING') {
+      ctx.strokeStyle = themeColor;
+      ctx.lineWidth = 2;
+      const drawShip = (x, y) => {
+        ctx.beginPath();
+        ctx.moveTo(x, y - 12);
+        ctx.lineTo(x - 10, y + 10);
+        ctx.lineTo(x, y + 4);
+        ctx.lineTo(x + 10, y + 10);
+        ctx.closePath();
+        ctx.stroke();
+      };
+      drawShip(player.x, player.y);
+      if (player.dual) drawShip(player.x - 16, player.y + 4);
+    }
+
+    ctx.fillStyle = themeColor;
+    lasers.forEach(l => ctx.fillRect(l.x - l.w / 2, l.y, l.w, l.h));
+
+    ctx.fillStyle = '#ff3344';
+    enemyLasers.forEach(el => ctx.fillRect(el.x - 1.5, el.y, 3, 8));
+
+    powerups.forEach(p => {
+      ctx.strokeStyle = p.type === 'DUAL' ? '#fbbf24' : '#22d3ee';
+      ctx.strokeRect(p.x - 6, p.y - 6, 12, 12);
+      ctx.fillStyle = ctx.strokeStyle;
+      ctx.font = '8px monospace';
+      ctx.fillText(p.type[0], p.x - 3, p.y + 3);
+    });
+
+    enemies.forEach(e => {
+      ctx.lineWidth = 1.5;
+      if (e.type === 'boss') {
+        ctx.strokeStyle = '#ff3344';
+        ctx.strokeRect(e.x - 8, e.y - 8, 16, 16);
+      } else if (e.type === 'goei') {
+        ctx.strokeStyle = '#22d3ee';
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, 8, 0, Math.PI * 2);
+        ctx.stroke();
+      } else {
+        ctx.strokeStyle = themeColor;
+        ctx.beginPath();
+        ctx.moveTo(e.x, e.y - 8);
+        ctx.lineTo(e.x + 8, e.y + 8);
+        ctx.lineTo(e.x - 8, e.y + 8);
+        ctx.closePath();
+        ctx.stroke();
+      }
+    });
+
+    particles.forEach(p => {
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.life;
+      ctx.fillRect(p.x, p.y, 2, 2);
+    });
+    ctx.globalAlpha = 1.0;
+
+    if (gameState === 'START') {
+      ctx.fillStyle = themeColor;
+      ctx.font = 'bold 18px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('GALAGA TERMINAL', W / 2, H / 2 - 20);
+      ctx.font = '11px monospace';
+      ctx.fillText('PRESS FIRE OR TAP CANVAS TO START', W / 2, H / 2 + 20);
+    } else if (gameState === 'GAMEOVER') {
+      ctx.fillStyle = '#ff3344';
+      ctx.font = 'bold 22px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('TACTICAL FAILURE', W / 2, H / 2 - 10);
+      ctx.fillStyle = themeColor;
+      ctx.font = '12px monospace';
+      ctx.fillText('PRESS FIRE OR TAP TO RESTART', W / 2, H / 2 + 20);
+    }
+  }
+
+  function gameLoop() {
+    update();
+    render();
+    requestAnimationFrame(gameLoop);
+  }
+
+  window.addEventListener('keydown', e => {
+    if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = true;
+    if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
+    if (e.code === 'Space') {
+      keys.fire = true;
+      if (gameState !== 'PLAYING') startGame();
+    }
+    if (e.code === 'KeyE') triggerEMP();
+  });
+
+  window.addEventListener('keyup', e => {
+    if (e.code === 'ArrowLeft' || e.code === 'KeyA') keys.left = false;
+    if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = false;
+    if (e.code === 'Space') keys.fire = false;
+  });
+
+  const bindTouch = (id, keyName) => {
+    const btn = document.getElementById(id);
+    const start = e => {
+      e.preventDefault();
+      audio.init();
+      keys[keyName] = true;
+      btn.classList.add('active');
+    };
+    const end = e => {
+      e.preventDefault();
+      keys[keyName] = false;
+      btn.classList.remove('active');
+    };
+    btn.addEventListener('touchstart', start);
+    btn.addEventListener('touchend', end);
+    btn.addEventListener('mousedown', start);
+    btn.addEventListener('mouseup', end);
+  };
+
+  bindTouch('btn-left', 'left');
+  bindTouch('btn-right', 'right');
+
+  const btnFire = document.getElementById('btn-fire');
+  const fireStart = e => {
+    e.preventDefault();
+    audio.init();
+    if (gameState !== 'PLAYING') startGame();
+    else keys.fire = true;
+  };
+  const fireEnd = e => { e.preventDefault(); keys.fire = false; };
+  btnFire.addEventListener('touchstart', fireStart);
+  btnFire.addEventListener('touchend', fireEnd);
+  btnFire.addEventListener('mousedown', fireStart);
+  btnFire.addEventListener('mouseup', fireEnd);
+
+  document.getElementById('btn-emp').addEventListener('click', triggerEMP);
+
+  autoFireBtn.addEventListener('click', () => {
+    autoFire = !autoFire;
+    autoFireBtn.classList.toggle('active', autoFire);
+    autoFireBtn.textContent = autoFire ? '⚡ AUTO-FIRE: ON' : '⚡ AUTO-FIRE: OFF';
+  });
+
+  const handleCanvasTouch = e => {
+    e.preventDefault();
+    audio.init();
+    if (gameState !== 'PLAYING') {
+      startGame();
+      return;
+    }
+    const rect = canvas.getBoundingClientRect();
+    const touch = e.touches ? e.touches[0] : e;
+    const clientX = touch.clientX - rect.left;
+    player.x = (clientX / rect.width) * W;
+  };
+
+  canvas.addEventListener('touchmove', handleCanvasTouch);
+  canvas.addEventListener('touchstart', handleCanvasTouch);
+  canvas.addEventListener('mousedown', e => {
+    if (gameState !== 'PLAYING') startGame();
+  });
+
+  themeBtn.addEventListener('click', () => {
+    themeIdx = (themeIdx + 1) % THEMES.length;
+    const t = THEMES[themeIdx];
+    document.documentElement.setAttribute('data-theme', t.name);
+    themeBtn.textContent = t.label;
+  });
+
+  audioBtn.addEventListener('click', () => {
+    audio.init();
+    audio.muted = !audio.muted;
+    audioBtn.textContent = audio.muted ? '🔇 AUDIO: OFF' : '🔊 AUDIO: ON';
+  });
+
+  crtBtn.addEventListener('click', () => {
+    crtOn = !crtOn;
+    crtLayer.style.display = crtOn ? 'block' : 'none';
+    crtBtn.textContent = crtOn ? '📺 CRT: ON' : '📺 CRT: OFF';
+  });
+
+  requestAnimationFrame(gameLoop);
+</script>
+</body>
+</html>
+
