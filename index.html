@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>GALAGA_CONSOLE // v2.7</title>
+  <title>GALAGA_CONSOLE // v2.8</title>
   <style>
     :root {
       --bg-main: #040806;
@@ -372,13 +372,13 @@
       color: var(--accent-gold);
     }
 
-    /* Fixed dimensions for Telemetry Grid to ensure ZERO layout shifting */
+    /* Fixed dimensions & responsive scaling for Telemetry Grid */
     .dashboard-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
       gap: 4px;
       background: var(--bg-main);
-      padding: 6px;
+      padding: 4px;
       border-radius: 4px;
       border: 1px solid var(--border-color);
       text-align: center;
@@ -391,9 +391,11 @@
       display: flex;
       flex-direction: column;
       justify-content: center;
-      padding: 2px;
+      align-items: center;
+      padding: 1px 2px;
       border-radius: 3px;
       transition: all 0.2s;
+      overflow: hidden;
     }
 
     /* Highlighted styling for High Score and Peak Stage records */
@@ -403,11 +405,12 @@
     }
 
     .dash-label {
-      font-size: 0.48rem;
+      font-size: 0.45rem;
       color: var(--text-dim);
       text-transform: uppercase;
-      letter-spacing: 0.5px;
+      letter-spacing: 0.3px;
       white-space: nowrap;
+      line-height: 1;
     }
 
     .dash-item.record-highlight .dash-label {
@@ -416,10 +419,11 @@
     }
 
     .dash-value {
-      font-size: 0.75rem;
+      font-size: 0.72rem;
       font-weight: bold;
       color: var(--text-bright);
-      line-height: 1.1;
+      line-height: 1.15;
+      white-space: nowrap;
     }
 
     .dash-item.record-highlight .dash-value {
@@ -427,11 +431,13 @@
     }
 
     .dash-sub {
-      font-size: 0.46rem;
+      font-size: 0.44rem;
       color: var(--text-dim);
       white-space: nowrap;
       overflow: hidden;
       text-overflow: ellipsis;
+      max-width: 100%;
+      line-height: 1;
       margin-top: 1px;
     }
 
@@ -440,57 +446,71 @@
       opacity: 0.9;
     }
 
-    /* Fixed-size inventory HUD bar prevents layout shift when gaining upgrades */
+    /* Responsive 3-column Inventory Grid preventing overlap on small mobile screens */
     .inventory-bar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 4px;
       background: var(--bg-main);
       border: 1px solid var(--border-accent);
       border-radius: 4px;
-      padding: 4px 8px;
-      font-size: 0.65rem;
-      height: 28px;
-      min-height: 28px;
+      padding: 4px;
       box-sizing: border-box;
+      min-height: 40px;
+      height: 40px;
     }
 
     .inv-group {
       display: flex;
+      flex-direction: column;
       align-items: center;
-      gap: 4px;
+      justify-content: center;
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 3px;
+      padding: 2px;
+      overflow: hidden;
     }
 
     .inv-label {
       color: var(--text-dim);
-      font-size: 0.52rem;
-    }
-
-    .inv-badge {
-      background: var(--bg-card);
-      border: 1px solid var(--border-color);
-      padding: 1px 5px;
-      border-radius: 3px;
-      font-weight: bold;
-      color: var(--text-bright);
-      font-size: 0.6rem;
-      min-width: 68px;
-      text-align: center;
+      font-size: 0.44rem;
+      letter-spacing: 0.3px;
+      text-transform: uppercase;
+      line-height: 1;
       white-space: nowrap;
     }
 
-    .inv-badge.active-gold {
+    .inv-badge {
+      font-weight: bold;
+      color: var(--text-bright);
+      font-size: 0.58rem;
+      line-height: 1.2;
+      text-align: center;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      width: 100%;
+    }
+
+    .inv-group.active-gold {
       border-color: var(--accent-gold);
+    }
+    .inv-group.active-gold .inv-badge {
       color: var(--accent-gold);
     }
 
-    .inv-badge.active-cyan {
+    .inv-group.active-cyan {
       border-color: var(--accent-cyan);
+    }
+    .inv-group.active-cyan .inv-badge {
       color: var(--accent-cyan);
     }
 
-    .inv-badge.active-green {
+    .inv-group.active-green {
       border-color: var(--text-main);
+    }
+    .inv-group.active-green .inv-badge {
       color: var(--text-main);
     }
 
@@ -767,7 +787,7 @@
           <div class="dot dot-yellow"></div>
           <div class="dot dot-green"></div>
         </div>
-        <div class="brand-title">GALAGA_CONSOLE <span class="version-tag">// v2.7</span></div>
+        <div class="brand-title">GALAGA_CONSOLE <span class="version-tag">// v2.8</span></div>
       </div>
       <div class="header-actions">
         <button class="btn-header btn-help" id="help-btn">❓ HELP</button>
@@ -805,19 +825,19 @@
       </div>
     </div>
 
-    <!-- Fixed-Height Live Inventory HUD Bar -->
+    <!-- Grid-based compact Live Inventory HUD Bar -->
     <div class="inventory-bar">
-      <div class="inv-group">
-        <span class="inv-label">BLASTERS:</span>
-        <span class="inv-badge active-gold" id="inv-weapon">SINGLE (1)</span>
+      <div class="inv-group active-gold" id="inv-group-weapon">
+        <span class="inv-label">BLASTERS</span>
+        <span class="inv-badge" id="inv-weapon">SINGLE (1)</span>
       </div>
-      <div class="inv-group">
-        <span class="inv-label">SHIELDS:</span>
-        <span class="inv-badge active-cyan" id="inv-shields">0 / 3 SHIELDS</span>
+      <div class="inv-group" id="inv-group-shields">
+        <span class="inv-label">SHIELDS</span>
+        <span class="inv-badge" id="inv-shields">0 / 3</span>
       </div>
-      <div class="inv-group">
-        <span class="inv-label">EMP BOMBS:</span>
-        <span class="inv-badge active-green" id="inv-emp">1 CHARGE</span>
+      <div class="inv-group active-green" id="inv-group-emp">
+        <span class="inv-label">EMP BOMBS</span>
+        <span class="inv-badge" id="inv-emp">1 CHARGE</span>
       </div>
     </div>
   </header>
@@ -1115,6 +1135,9 @@
   const invWeapon = document.getElementById('inv-weapon');
   const invShields = document.getElementById('inv-shields');
   const invEmp = document.getElementById('inv-emp');
+  const invGroupWeapon = document.getElementById('inv-group-weapon');
+  const invGroupShields = document.getElementById('inv-group-shields');
+  const invGroupEmp = document.getElementById('inv-group-emp');
 
   const themeBtn = document.getElementById('theme-btn');
   const audioBtn = document.getElementById('audio-btn');
@@ -1209,20 +1232,20 @@
   function updateInventoryHUD() {
     if (player.blasterLevel === 1) {
       invWeapon.textContent = 'SINGLE (1)';
-      invWeapon.className = 'inv-badge';
+      invGroupWeapon.className = 'inv-group';
     } else if (player.blasterLevel === 2) {
       invWeapon.textContent = 'DUAL (2)';
-      invWeapon.className = 'inv-badge active-gold';
+      invGroupWeapon.className = 'inv-group active-gold';
     } else {
       invWeapon.textContent = 'TRIPLE (3)';
-      invWeapon.className = 'inv-badge active-gold';
+      invGroupWeapon.className = 'inv-group active-gold';
     }
 
-    invShields.textContent = `${player.shields} / 3 SHIELDS`;
-    invShields.className = `inv-badge ${player.shields > 0 ? 'active-cyan' : ''}`;
+    invShields.textContent = `${player.shields} / 3`;
+    invGroupShields.className = `inv-group ${player.shields > 0 ? 'active-cyan' : ''}`;
 
     invEmp.textContent = `${player.empCount} CHARGE${player.empCount !== 1 ? 'S' : ''}`;
-    invEmp.className = `inv-badge ${player.empCount > 0 ? 'active-green' : ''}`;
+    invGroupEmp.className = `inv-group ${player.empCount > 0 ? 'active-green' : ''}`;
 
     stageCurSub.textContent = `STAGE ${String(stage).padStart(2, '0')}`;
     livesVal.textContent = '▲'.repeat(Math.max(0, lives));
