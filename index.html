@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>GALAGA_CONSOLE // v2.3</title>
+  <title>GALAGA_CONSOLE // v2.4</title>
   <style>
     :root {
       --bg-main: #040806;
@@ -322,6 +322,17 @@
       border-color: var(--text-main);
     }
 
+    .btn-header.active {
+      background: var(--highlight-bg);
+      border-color: var(--text-main);
+      color: var(--text-bright);
+    }
+
+    .btn-help {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
     .dashboard-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -447,6 +458,164 @@
       z-index: 6;
       letter-spacing: 0.5px;
     }
+
+    .modal-overlay {
+      position: absolute;
+      top: 0; left: 0; right: 0; bottom: 0;
+      background: rgba(2, 5, 3, 0.92);
+      backdrop-filter: blur(4px);
+      z-index: 100;
+      display: flex;
+      flex-direction: column;
+      padding: 10px;
+      border-radius: 6px;
+    }
+
+    .modal-overlay.hidden {
+      display: none;
+    }
+
+    .modal-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid var(--border-accent);
+      padding-bottom: 8px;
+      margin-bottom: 8px;
+    }
+
+    .modal-title {
+      font-size: 0.85rem;
+      font-weight: bold;
+      color: var(--accent-gold);
+      display: flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .modal-tabs {
+      display: flex;
+      gap: 4px;
+      overflow-x: auto;
+      padding-bottom: 6px;
+      border-bottom: 1px solid var(--border-color);
+      margin-bottom: 8px;
+      scrollbar-width: thin;
+    }
+
+    .tab-btn {
+      background: var(--bg-main);
+      color: var(--text-dim);
+      border: 1px solid var(--border-color);
+      padding: 5px 8px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.6rem;
+      white-space: nowrap;
+      cursor: pointer;
+    }
+
+    .tab-btn.active {
+      background: var(--highlight-bg);
+      color: var(--text-bright);
+      border-color: var(--text-main);
+      font-weight: bold;
+    }
+
+    .modal-body {
+      flex: 1;
+      overflow-y: auto;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      padding-right: 4px;
+      scrollbar-width: thin;
+      font-size: 0.7rem;
+      line-height: 1.4;
+    }
+
+    .help-section {
+      display: none;
+      flex-direction: column;
+      gap: 8px;
+    }
+
+    .help-section.active {
+      display: flex;
+    }
+
+    .help-card {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      border-radius: 6px;
+      padding: 8px;
+      display: flex;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .help-icon-box {
+      width: 44px;
+      height: 44px;
+      background: var(--bg-main);
+      border: 1px solid var(--border-accent);
+      border-radius: 4px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      flex-shrink: 0;
+      font-size: 1.2rem;
+    }
+
+    .help-text-box {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .help-card-title {
+      font-weight: bold;
+      color: var(--text-bright);
+      font-size: 0.75rem;
+    }
+
+    .help-card-desc {
+      color: var(--text-main);
+      font-size: 0.65rem;
+      opacity: 0.9;
+    }
+
+    .modal-footer {
+      border-top: 1px solid var(--border-accent);
+      padding-top: 8px;
+      margin-top: 8px;
+      display: flex;
+      gap: 6px;
+    }
+
+    .btn-modal-action {
+      flex: 1;
+      background: var(--bg-main);
+      color: var(--text-main);
+      border: 1px solid var(--border-accent);
+      padding: 8px;
+      border-radius: 4px;
+      font-family: var(--font-mono);
+      font-size: 0.65rem;
+      font-weight: bold;
+      cursor: pointer;
+      text-align: center;
+    }
+
+    .btn-modal-action:active, .btn-modal-action:hover {
+      background: var(--highlight-bg);
+      border-color: var(--text-main);
+    }
+
+    .btn-primary-action {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
   </style>
 </head>
 <body>
@@ -460,9 +629,11 @@
           <div class="dot dot-yellow"></div>
           <div class="dot dot-green"></div>
         </div>
-        <div class="brand-title">GALAGA_CONSOLE <span class="version-tag">// v2.3</span></div>
+        <div class="brand-title">GALAGA_CONSOLE <span class="version-tag">// v2.4</span></div>
       </div>
       <div class="header-actions">
+        <button class="btn-header btn-help" id="help-btn">❓ HELP</button>
+        <button class="btn-header" id="pause-btn">⏸️ PAUSE</button>
         <button class="btn-header" id="controls-toggle-btn">🎮 CONTROLS: SHOW</button>
         <button class="btn-header" id="theme-btn">◉ THEME</button>
         <button class="btn-header" id="audio-btn">🔊 AUDIO</button>
@@ -494,6 +665,167 @@
     <div class="crt-overlay" id="crt-layer"></div>
     <div class="touch-hint" id="touch-hint">SLIDE CANVAS TO STEER</div>
     <canvas id="gameCanvas" width="400" height="533"></canvas>
+
+    <div class="modal-overlay hidden" id="help-modal">
+      <div class="modal-header">
+        <div class="modal-title">📖 OPERATIONAL TACTICAL HELP CONSOLE</div>
+        <button class="btn-header" id="close-help-btn">✖ CLOSE</button>
+      </div>
+
+      <div class="modal-tabs">
+        <button class="tab-btn active" data-tab="tab-controls">1. CONTROLS</button>
+        <button class="tab-btn" data-tab="tab-telemetry">2. TELEMETRY</button>
+        <button class="tab-btn" data-tab="tab-upgrades">3. POWERUPS</button>
+        <button class="tab-btn" data-tab="tab-enemies">4. SWARM TYPES</button>
+        <button class="tab-btn" data-tab="tab-system">5. SYSTEM NAV</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- TAB 1: CONTROLS -->
+        <div class="help-section active" id="tab-controls">
+          <div class="help-card">
+            <div class="help-icon-box">👆</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Touch Slide Steering</div>
+              <div class="help-card-desc">Slide left or right directly on the game canvas with your finger for smooth precise horizontal steering.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box">⌨️</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Keyboard Controls</div>
+              <div class="help-card-desc">Use [A] / [D] or Left / Right Arrow keys to move. Press [SPACE] to fire manually and [E] to launch EMP.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box">⚡</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Auto-Fire Engine</div>
+              <div class="help-card-desc">Auto-fire is enabled by default for rapid-fire plasma bursts. Toggle off anytime via bottom control button.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box">💣</div>
+            <div class="help-text-box">
+              <div class="help-card-title">EMP Shockwave Trigger</div>
+              <div class="help-card-desc">Tap the EMP button to trigger a screen-wide pulse that instantly destroys diving alien invaders.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 2: TELEMETRY -->
+        <div class="help-section" id="tab-telemetry">
+          <div class="help-card">
+            <div class="help-icon-box">📊</div>
+            <div class="help-text-box">
+              <div class="help-card-title">1UP & High Score Tracking</div>
+              <div class="help-card-desc">Tracks current mission score and saves high scores across sessions using browser memory storage.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box">🎯</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Stage Progress Counter</div>
+              <div class="help-card-desc">Displays current alien wave intensity. Stage automatically advances upon clearing all hostile invaders.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box">▲</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Fighter Lives Remaining</div>
+              <div class="help-card-desc">Displays remaining backup fighters (▲ symbols). Mission ends when all fighters are destroyed.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box">🛡️</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Shield Status Ring</div>
+              <div class="help-card-desc">When active, a cyan aura ring surrounds your ship, absorbing incoming enemy laser hits or collisions.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 3: POWERUPS -->
+        <div class="help-section" id="tab-upgrades">
+          <div class="help-card">
+            <div class="help-icon-box" style="color:#fbbf24;">(D)</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Dual Cannons Powerup [D]</div>
+              <div class="help-card-desc">Doubles your plasma attack output with twin parallel laser blasters. (4% drop chance)</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box" style="color:#22d3ee;">(S)</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Shield Barrier [S]</div>
+              <div class="help-card-desc">Grants a forcefield barrier capable of absorbing 1 hit from enemy lasers or ship collisions. (4% drop chance)</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box" style="color:#33ff66;">(E)</div>
+            <div class="help-text-box">
+              <div class="help-card-title">EMP Charge [E]</div>
+              <div class="help-card-desc">Grants +1 additional EMP Shockwave charge for tactical emergency clearing. (4% drop chance)</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 4: SWARM TYPES -->
+        <div class="help-section" id="tab-enemies">
+          <div class="help-card">
+            <div class="help-icon-box" style="color:#ff3344;">👾</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Boss Galaga (Red) - 2 HP</div>
+              <div class="help-card-desc">Command unit requiring 2 hits. Worth 50 PTS in formation and 100 PTS during diving attack vector.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box" style="color:#22d3ee;">🛸</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Goei Swarmer (Cyan) - 1 HP</div>
+              <div class="help-card-desc">Agile fighter unit. Worth 50 PTS in formation and 100 PTS when initiating dive attacks.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box" style="color:#33ff66;">🔻</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Zako Scout (Green) - 1 HP</div>
+              <div class="help-card-desc">Frontline scout unit. Worth 50 PTS in formation and 100 PTS when diving toward player.</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- TAB 5: SYSTEM NAV -->
+        <div class="help-section" id="tab-system">
+          <div class="help-card">
+            <div class="help-icon-box">⏸️</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Pause / Resume Function</div>
+              <div class="help-card-desc">Instantly freezes game execution. Resume anytime without losing mission state.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box">🎮</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Show / Hide Touch Controls</div>
+              <div class="help-card-desc">Toggle touch buttons to maximize canvas size on high-resolution screens.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box">◉</div>
+            <div class="help-text-box">
+              <div class="help-card-title">13 Color Themes & CRT Overlay</div>
+              <div class="help-card-desc">Cycle through 13 retro phosphor palettes and toggle CRT scanline simulation.</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn-modal-action btn-primary-action" id="modal-resume-btn">▶ RESUME GAME</button>
+        <button class="btn-modal-action" id="modal-restart-btn">🔄 START NEW GAME</button>
+      </div>
+    </div>
   </div>
 
   <div class="touch-controls" id="touch-controls-panel">
@@ -616,6 +948,12 @@
   const themeBtn = document.getElementById('theme-btn');
   const audioBtn = document.getElementById('audio-btn');
   const crtBtn = document.getElementById('crt-btn');
+  const pauseBtn = document.getElementById('pause-btn');
+  const helpBtn = document.getElementById('help-btn');
+  const closeHelpBtn = document.getElementById('close-help-btn');
+  const helpModal = document.getElementById('help-modal');
+  const modalResumeBtn = document.getElementById('modal-resume-btn');
+  const modalRestartBtn = document.getElementById('modal-restart-btn');
   const crtLayer = document.getElementById('crt-layer');
   const autoFireBtn = document.getElementById('btn-autofire');
   const controlsToggleBtn = document.getElementById('controls-toggle-btn');
@@ -628,7 +966,8 @@
   let highScore = localStorage.getItem('galaga_high_score') || 0;
   let stage = 1;
   let lives = 3;
-  let gameState = 'START'; 
+  let gameState = 'START'; // 'START', 'PLAYING', 'PAUSED', 'GAMEOVER'
+  let previousState = 'START';
   let autoFire = true;
   let crtOn = true;
   let showControls = true;
@@ -717,6 +1056,39 @@
     updateLivesDisplay();
     spawnEnemies();
     gameState = 'PLAYING';
+    pauseBtn.textContent = '⏸️ PAUSE';
+    pauseBtn.classList.remove('active');
+  }
+
+  function togglePause() {
+    if (gameState === 'PLAYING') {
+      gameState = 'PAUSED';
+      pauseBtn.textContent = '▶ RESUME';
+      pauseBtn.classList.add('active');
+    } else if (gameState === 'PAUSED') {
+      gameState = 'PLAYING';
+      pauseBtn.textContent = '⏸️ PAUSE';
+      pauseBtn.classList.remove('active');
+    }
+  }
+
+  function openHelpModal() {
+    previousState = gameState;
+    if (gameState === 'PLAYING') {
+      gameState = 'PAUSED';
+      pauseBtn.textContent = '▶ RESUME';
+      pauseBtn.classList.add('active');
+    }
+    helpModal.classList.remove('hidden');
+  }
+
+  function closeHelpModal() {
+    helpModal.classList.add('hidden');
+    if (previousState === 'PLAYING') {
+      gameState = 'PLAYING';
+      pauseBtn.textContent = '⏸️ PAUSE';
+      pauseBtn.classList.remove('active');
+    }
   }
 
   function updateLivesDisplay() {
@@ -934,7 +1306,7 @@
     });
     ctx.globalAlpha = 1.0;
 
-    if (gameState === 'PLAYING') {
+    if (gameState === 'PLAYING' || gameState === 'PAUSED') {
       ctx.strokeStyle = themeColor;
       ctx.lineWidth = 2;
       const drawShip = (x, y) => {
@@ -1028,6 +1400,14 @@
       ctx.fillText('GALAGA TERMINAL', W / 2, H / 2 - 20);
       ctx.font = '11px monospace';
       ctx.fillText('PRESS FIRE OR TAP CANVAS TO START', W / 2, H / 2 + 20);
+    } else if (gameState === 'PAUSED' && helpModal.classList.contains('hidden')) {
+      ctx.fillStyle = '#fbbf24';
+      ctx.font = 'bold 20px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText('MISSION PAUSED', W / 2, H / 2 - 10);
+      ctx.fillStyle = themeColor;
+      ctx.font = '11px monospace';
+      ctx.fillText('PRESS PAUSE BUTTON TO RESUME', W / 2, H / 2 + 20);
     } else if (gameState === 'GAMEOVER') {
       ctx.fillStyle = '#ff3344';
       ctx.font = 'bold 22px monospace';
@@ -1050,9 +1430,10 @@
     if (e.code === 'ArrowRight' || e.code === 'KeyD') keys.right = true;
     if (e.code === 'Space') {
       keys.fire = true;
-      if (gameState !== 'PLAYING') startGame();
+      if (gameState !== 'PLAYING' && gameState !== 'PAUSED') startGame();
     }
     if (e.code === 'KeyE') triggerEMP();
+    if (e.code === 'KeyP') togglePause();
   });
 
   window.addEventListener('keyup', e => {
@@ -1087,7 +1468,7 @@
   const fireStart = e => {
     e.preventDefault();
     audio.init();
-    if (gameState !== 'PLAYING') startGame();
+    if (gameState !== 'PLAYING' && gameState !== 'PAUSED') startGame();
     else keys.fire = true;
   };
   const fireEnd = e => { e.preventDefault(); keys.fire = false; };
@@ -1097,6 +1478,42 @@
   btnFire.addEventListener('mouseup', fireEnd);
 
   document.getElementById('btn-emp').addEventListener('click', triggerEMP);
+
+  pauseBtn.addEventListener('click', () => {
+    audio.init();
+    togglePause();
+  });
+
+  helpBtn.addEventListener('click', () => {
+    audio.init();
+    openHelpModal();
+  });
+
+  closeHelpBtn.addEventListener('click', closeHelpModal);
+
+  modalResumeBtn.addEventListener('click', () => {
+    closeHelpModal();
+    if (gameState === 'PAUSED') togglePause();
+  });
+
+  modalRestartBtn.addEventListener('click', () => {
+    closeHelpModal();
+    startGame();
+  });
+
+  // Tab switching inside HELP Modal
+  const tabBtns = document.querySelectorAll('.tab-btn');
+  const helpSections = document.querySelectorAll('.help-section');
+
+  tabBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+      audio.init();
+      tabBtns.forEach(b => b.classList.remove('active'));
+      helpSections.forEach(s => s.classList.remove('active'));
+      btn.classList.add('active');
+      document.getElementById(btn.dataset.tab).classList.add('active');
+    });
+  });
 
   autoFireBtn.addEventListener('click', () => {
     autoFire = !autoFire;
@@ -1113,7 +1530,7 @@
   const handleCanvasTouch = e => {
     e.preventDefault();
     audio.init();
-    if (gameState !== 'PLAYING') {
+    if (gameState !== 'PLAYING' && gameState !== 'PAUSED') {
       startGame();
       return;
     }
@@ -1126,7 +1543,7 @@
   canvas.addEventListener('touchmove', handleCanvasTouch);
   canvas.addEventListener('touchstart', handleCanvasTouch);
   canvas.addEventListener('mousedown', e => {
-    if (gameState !== 'PLAYING') startGame();
+    if (gameState !== 'PLAYING' && gameState !== 'PAUSED') startGame();
   });
 
   themeBtn.addEventListener('click', () => {
@@ -1139,7 +1556,7 @@
   audioBtn.addEventListener('click', () => {
     audio.init();
     audio.muted = !audio.muted;
-    audioBtn.textContent = audio.muted ? 'ffff AUDIO: OFF' : '🔊 AUDIO: ON';
+    audioBtn.textContent = audio.muted ? '🔇 AUDIO: OFF' : '🔊 AUDIO: ON';
   });
 
   crtBtn.addEventListener('click', () => {
