@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>GALAGA_CONSOLE // v2.4</title>
+  <title>GALAGA_CONSOLE // v2.7</title>
   <style>
     :root {
       --bg-main: #040806;
@@ -21,6 +21,9 @@
       --accent-red: #ff3344;
       --accent-yellow: #f59e0b;
       --accent-cyan: #22d3ee;
+      --record-bg: rgba(251, 191, 36, 0.08);
+      --record-border: #fbbf24;
+      --record-text: #fde047;
       --font-mono: 'Courier New', Courier, monospace;
       --highlight-bg: #123d20;
       --canvas-bg: #020503;
@@ -37,6 +40,9 @@
       --text-muted: #78350f;
       --text-bright: #fde68a;
       --accent-gold: #38bdf8;
+      --record-bg: rgba(56, 189, 248, 0.12);
+      --record-border: #38bdf8;
+      --record-text: #7dd3fc;
       --highlight-bg: #38200b;
       --canvas-bg: #060402;
     }
@@ -52,6 +58,9 @@
       --text-muted: #6b1557;
       --text-bright: #f5d0fe;
       --accent-gold: #f6d860;
+      --record-bg: rgba(246, 216, 96, 0.12);
+      --record-border: #f6d860;
+      --record-text: #fef08a;
       --highlight-bg: #35142e;
       --canvas-bg: #050204;
     }
@@ -67,6 +76,9 @@
       --text-muted: #484f58;
       --text-bright: #ffffff;
       --accent-gold: #58a6ff;
+      --record-bg: rgba(88, 166, 255, 0.12);
+      --record-border: #58a6ff;
+      --record-text: #a5d6ff;
       --highlight-bg: #1f2937;
       --canvas-bg: #080a0f;
     }
@@ -82,6 +94,9 @@
       --text-muted: #94a3b8;
       --text-bright: #020617;
       --accent-gold: #2563eb;
+      --record-bg: rgba(37, 99, 235, 0.08);
+      --record-border: #2563eb;
+      --record-text: #1d4ed8;
       --highlight-bg: #e2e8f0;
       --canvas-bg: #f8fafc;
     }
@@ -97,6 +112,9 @@
       --text-muted: #444444;
       --text-bright: #ffffff;
       --accent-gold: #38bdf8;
+      --record-bg: rgba(56, 189, 248, 0.12);
+      --record-border: #38bdf8;
+      --record-text: #7dd3fc;
       --highlight-bg: #1a1a1a;
       --canvas-bg: #000000;
     }
@@ -112,6 +130,9 @@
       --text-muted: #7a1515;
       --text-bright: #ffb3b3;
       --accent-gold: #fbbf24;
+      --record-bg: rgba(251, 191, 36, 0.12);
+      --record-border: #fbbf24;
+      --record-text: #fef08a;
       --highlight-bg: #3f1212;
       --canvas-bg: #080202;
     }
@@ -127,6 +148,9 @@
       --text-muted: #1d4ed8;
       --text-bright: #93c5fd;
       --accent-gold: #fbbf24;
+      --record-bg: rgba(251, 191, 36, 0.12);
+      --record-border: #fbbf24;
+      --record-text: #fef08a;
       --highlight-bg: #1e293b;
       --canvas-bg: #02050d;
     }
@@ -142,6 +166,9 @@
       --text-muted: #0e7490;
       --text-bright: #67e8f9;
       --accent-gold: #fde047;
+      --record-bg: rgba(253, 224, 71, 0.12);
+      --record-border: #fde047;
+      --record-text: #fef08a;
       --highlight-bg: #0f3443;
       --canvas-bg: #01080a;
     }
@@ -157,6 +184,9 @@
       --text-muted: #4caf50;
       --text-bright: #0d3b10;
       --accent-gold: #d97706;
+      --record-bg: rgba(217, 119, 6, 0.12);
+      --record-border: #d97706;
+      --record-text: #b45309;
       --highlight-bg: #c8e6c9;
       --canvas-bg: #f1f8f1;
     }
@@ -172,6 +202,9 @@
       --text-muted: #854d0e;
       --text-bright: #fef08a;
       --accent-gold: #38bdf8;
+      --record-bg: rgba(56, 189, 248, 0.12);
+      --record-border: #38bdf8;
+      --record-text: #7dd3fc;
       --highlight-bg: #3d3410;
       --canvas-bg: #0a0803;
     }
@@ -187,6 +220,9 @@
       --text-muted: #64748b;
       --text-bright: #f8fafc;
       --accent-gold: #38bdf8;
+      --record-bg: rgba(56, 189, 248, 0.12);
+      --record-border: #38bdf8;
+      --record-text: #7dd3fc;
       --highlight-bg: #273043;
       --canvas-bg: #08090c;
     }
@@ -202,6 +238,9 @@
       --text-muted: #c2410c;
       --text-bright: #ffedd5;
       --accent-gold: #fde047;
+      --record-bg: rgba(253, 224, 71, 0.12);
+      --record-border: #fde047;
+      --record-text: #fef08a;
       --highlight-bg: #3b2015;
       --canvas-bg: #0a0604;
     }
@@ -234,7 +273,7 @@
 
     .terminal-wrapper {
       width: 100%;
-      max-width: 480px;
+      max-width: 500px;
       height: 100%;
       max-height: 100vh;
       background-color: var(--bg-card);
@@ -333,6 +372,7 @@
       color: var(--accent-gold);
     }
 
+    /* Fixed dimensions for Telemetry Grid to ensure ZERO layout shifting */
     .dashboard-grid {
       display: grid;
       grid-template-columns: repeat(4, 1fr);
@@ -342,24 +382,116 @@
       border-radius: 4px;
       border: 1px solid var(--border-color);
       text-align: center;
+      min-height: 52px;
+      height: 52px;
+      box-sizing: border-box;
     }
 
     .dash-item {
       display: flex;
       flex-direction: column;
+      justify-content: center;
+      padding: 2px;
+      border-radius: 3px;
+      transition: all 0.2s;
+    }
+
+    /* Highlighted styling for High Score and Peak Stage records */
+    .dash-item.record-highlight {
+      background: var(--record-bg);
+      border: 1px solid var(--record-border);
     }
 
     .dash-label {
-      font-size: 0.5rem;
+      font-size: 0.48rem;
       color: var(--text-dim);
       text-transform: uppercase;
       letter-spacing: 0.5px;
+      white-space: nowrap;
+    }
+
+    .dash-item.record-highlight .dash-label {
+      color: var(--record-border);
+      font-weight: bold;
     }
 
     .dash-value {
       font-size: 0.75rem;
       font-weight: bold;
       color: var(--text-bright);
+      line-height: 1.1;
+    }
+
+    .dash-item.record-highlight .dash-value {
+      color: var(--record-text);
+    }
+
+    .dash-sub {
+      font-size: 0.46rem;
+      color: var(--text-dim);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      margin-top: 1px;
+    }
+
+    .dash-item.record-highlight .dash-sub {
+      color: var(--record-border);
+      opacity: 0.9;
+    }
+
+    /* Fixed-size inventory HUD bar prevents layout shift when gaining upgrades */
+    .inventory-bar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: var(--bg-main);
+      border: 1px solid var(--border-accent);
+      border-radius: 4px;
+      padding: 4px 8px;
+      font-size: 0.65rem;
+      height: 28px;
+      min-height: 28px;
+      box-sizing: border-box;
+    }
+
+    .inv-group {
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .inv-label {
+      color: var(--text-dim);
+      font-size: 0.52rem;
+    }
+
+    .inv-badge {
+      background: var(--bg-card);
+      border: 1px solid var(--border-color);
+      padding: 1px 5px;
+      border-radius: 3px;
+      font-weight: bold;
+      color: var(--text-bright);
+      font-size: 0.6rem;
+      min-width: 68px;
+      text-align: center;
+      white-space: nowrap;
+    }
+
+    .inv-badge.active-gold {
+      border-color: var(--accent-gold);
+      color: var(--accent-gold);
+    }
+
+    .inv-badge.active-cyan {
+      border-color: var(--accent-cyan);
+      color: var(--accent-cyan);
+    }
+
+    .inv-badge.active-green {
+      border-color: var(--text-main);
+      color: var(--text-main);
     }
 
     .viewport-frame {
@@ -401,6 +533,9 @@
       gap: 6px;
       flex-shrink: 0;
       transition: all 0.2s ease;
+      min-height: 80px;
+      height: 80px;
+      box-sizing: border-box;
     }
 
     .touch-controls.hidden {
@@ -410,6 +545,7 @@
     .control-row {
       display: flex;
       gap: 6px;
+      flex: 1;
     }
 
     .btn-touch {
@@ -417,10 +553,10 @@
       background: var(--bg-main);
       color: var(--text-main);
       border: 1px solid var(--border-color);
-      padding: 10px 4px;
+      padding: 6px 4px;
       border-radius: 6px;
       font-family: var(--font-mono);
-      font-size: 0.7rem;
+      font-size: 0.68rem;
       font-weight: bold;
       text-align: center;
       cursor: pointer;
@@ -459,10 +595,11 @@
       letter-spacing: 0.5px;
     }
 
+    /* Modal styling */
     .modal-overlay {
       position: absolute;
       top: 0; left: 0; right: 0; bottom: 0;
-      background: rgba(2, 5, 3, 0.92);
+      background: rgba(2, 5, 3, 0.94);
       backdrop-filter: blur(4px);
       z-index: 100;
       display: flex;
@@ -564,7 +701,8 @@
       justify-content: center;
       align-items: center;
       flex-shrink: 0;
-      font-size: 1.2rem;
+      font-size: 1.1rem;
+      font-weight: bold;
     }
 
     .help-text-box {
@@ -629,7 +767,7 @@
           <div class="dot dot-yellow"></div>
           <div class="dot dot-green"></div>
         </div>
-        <div class="brand-title">GALAGA_CONSOLE <span class="version-tag">// v2.4</span></div>
+        <div class="brand-title">GALAGA_CONSOLE <span class="version-tag">// v2.7</span></div>
       </div>
       <div class="header-actions">
         <button class="btn-header btn-help" id="help-btn">❓ HELP</button>
@@ -641,22 +779,45 @@
       </div>
     </div>
 
+    <!-- Dashboard telemetry grid -->
     <div class="dashboard-grid">
       <div class="dash-item">
-        <span class="dash-label">1UP SCORE</span>
+        <span class="dash-label">CURRENT SCORE</span>
         <span class="dash-value" id="score-val">000000</span>
+        <span class="dash-sub" id="stage-cur-sub">STAGE 01</span>
       </div>
-      <div class="dash-item">
+      <!-- High Score with distinct record highlighting -->
+      <div class="dash-item record-highlight">
         <span class="dash-label">HIGH SCORE</span>
         <span class="dash-value" id="high-val">000000</span>
+        <span class="dash-sub" id="high-date-sub">NONE</span>
+      </div>
+      <!-- Peak Stage with distinct record highlighting -->
+      <div class="dash-item record-highlight">
+        <span class="dash-label">PEAK STAGE</span>
+        <span class="dash-value" id="max-stage-val">01</span>
+        <span class="dash-sub" id="stage-date-sub">NONE</span>
       </div>
       <div class="dash-item">
-        <span class="dash-label">STAGE</span>
-        <span class="dash-value" id="stage-val">01</span>
-      </div>
-      <div class="dash-item">
-        <span class="dash-label">SHIPS</span>
+        <span class="dash-label">LIVES</span>
         <span class="dash-value" id="lives-val">▲▲▲</span>
+        <span class="dash-sub" id="lives-count-sub">3 SHIPS</span>
+      </div>
+    </div>
+
+    <!-- Fixed-Height Live Inventory HUD Bar -->
+    <div class="inventory-bar">
+      <div class="inv-group">
+        <span class="inv-label">BLASTERS:</span>
+        <span class="inv-badge active-gold" id="inv-weapon">SINGLE (1)</span>
+      </div>
+      <div class="inv-group">
+        <span class="inv-label">SHIELDS:</span>
+        <span class="inv-badge active-cyan" id="inv-shields">0 / 3 SHIELDS</span>
+      </div>
+      <div class="inv-group">
+        <span class="inv-label">EMP BOMBS:</span>
+        <span class="inv-badge active-green" id="inv-emp">1 CHARGE</span>
       </div>
     </div>
   </header>
@@ -666,6 +827,7 @@
     <div class="touch-hint" id="touch-hint">SLIDE CANVAS TO STEER</div>
     <canvas id="gameCanvas" width="400" height="533"></canvas>
 
+    <!-- Help & Reference Console Modal -->
     <div class="modal-overlay hidden" id="help-modal">
       <div class="modal-header">
         <div class="modal-title">📖 OPERATIONAL TACTICAL HELP CONSOLE</div>
@@ -718,29 +880,29 @@
           <div class="help-card">
             <div class="help-icon-box">📊</div>
             <div class="help-text-box">
-              <div class="help-card-title">1UP & High Score Tracking</div>
-              <div class="help-card-desc">Tracks current mission score and saves high scores across sessions using browser memory storage.</div>
+              <div class="help-card-title">CURRENT SCORE vs HIGH SCORE</div>
+              <div class="help-card-desc">Displays active session points alongside all-time High Score record and timestamp highlighted in gold.</div>
             </div>
           </div>
           <div class="help-card">
-            <div class="help-icon-box">🎯</div>
+            <div class="help-icon-box">🏆</div>
             <div class="help-text-box">
-              <div class="help-card-title">Stage Progress Counter</div>
-              <div class="help-card-desc">Displays current alien wave intensity. Stage automatically advances upon clearing all hostile invaders.</div>
+              <div class="help-card-title">Peak Stage Record</div>
+              <div class="help-card-desc">Saves the maximum wave/stage level ever reached along with timestamp record in local storage.</div>
+            </div>
+          </div>
+          <div class="help-card">
+            <div class="help-icon-box">🎒</div>
+            <div class="help-text-box">
+              <div class="help-card-title">Real-Time Inventory HUD</div>
+              <div class="help-card-desc">Tracks weapon formation (Single $\rightarrow$ Dual $\rightarrow$ Triple), stackable Shield rings (up to 3), and EMP charges.</div>
             </div>
           </div>
           <div class="help-card">
             <div class="help-icon-box">▲</div>
             <div class="help-text-box">
-              <div class="help-card-title">Fighter Lives Remaining</div>
-              <div class="help-card-desc">Displays remaining backup fighters (▲ symbols). Mission ends when all fighters are destroyed.</div>
-            </div>
-          </div>
-          <div class="help-card">
-            <div class="help-icon-box">🛡️</div>
-            <div class="help-text-box">
-              <div class="help-card-title">Shield Status Ring</div>
-              <div class="help-card-desc">When active, a cyan aura ring surrounds your ship, absorbing incoming enemy laser hits or collisions.</div>
+              <div class="help-card-title">Fighter Reserve Lives</div>
+              <div class="help-card-desc">Displays remaining backup fighters (▲ symbols). Mission ends when all reserve ships are lost.</div>
             </div>
           </div>
         </div>
@@ -750,22 +912,22 @@
           <div class="help-card">
             <div class="help-icon-box" style="color:#fbbf24;">(D)</div>
             <div class="help-text-box">
-              <div class="help-card-title">Dual Cannons Powerup [D]</div>
-              <div class="help-card-desc">Doubles your plasma attack output with twin parallel laser blasters. (4% drop chance)</div>
+              <div class="help-card-title">Weapon Upgrade Tiers</div>
+              <div class="help-card-desc">Upgrades blasters: 1) SINGLE CANNON $\rightarrow$ 2) DUAL BLASTERS (2 ships) $\rightarrow$ 3) TRIPLE BLASTERS (3 ships firing 3 parallel lasers)!</div>
             </div>
           </div>
           <div class="help-card">
             <div class="help-icon-box" style="color:#22d3ee;">(S)</div>
             <div class="help-text-box">
-              <div class="help-card-title">Shield Barrier [S]</div>
-              <div class="help-card-desc">Grants a forcefield barrier capable of absorbing 1 hit from enemy lasers or ship collisions. (4% drop chance)</div>
+              <div class="help-card-title">Stackable Shields (Up to 3)</div>
+              <div class="help-card-desc">Grants up to 3 concentric shield barriers. Each barrier absorbs 1 hit from enemy lasers or collisions.</div>
             </div>
           </div>
           <div class="help-card">
             <div class="help-icon-box" style="color:#33ff66;">(E)</div>
             <div class="help-text-box">
               <div class="help-card-title">EMP Charge [E]</div>
-              <div class="help-card-desc">Grants +1 additional EMP Shockwave charge for tactical emergency clearing. (4% drop chance)</div>
+              <div class="help-card-desc">Grants +1 additional EMP Shockwave charge for tactical emergency clearing.</div>
             </div>
           </div>
         </div>
@@ -861,8 +1023,8 @@
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
         osc.type = 'sawtooth';
-        osc.frequency.setValueAtTime(800, this.ctx.currentTime);
-        osc.frequency.exponentialRampToValueAtTime(150, this.ctx.currentTime + 0.12);
+        osc.frequency.setValueAtTime(850, this.ctx.currentTime);
+        osc.frequency.exponentialRampToValueAtTime(160, this.ctx.currentTime + 0.12);
         gain.gain.setValueAtTime(0.08, this.ctx.currentTime);
         gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.12);
         osc.connect(gain);
@@ -923,19 +1085,19 @@
   const audio = new SoundEngine();
 
   const THEMES = [
-    { name: '', label: '◉ GREEN PHOSPHOR', color: '#33ff66' },
-    { name: 'amber', label: '◉ AMBER PHOSPHOR', color: '#f59e0b' },
-    { name: 'mauve', label: '◉ MAUVE PHOSPHOR', color: '#e879f9' },
-    { name: 'dark', label: '◉ DARK CODER', color: '#c9d1d9' },
-    { name: 'light', label: '◉ LIGHT TERMINAL', color: '#0f172a' },
-    { name: 'blackedout', label: '◉ BLACKED OUT', color: '#ffffff' },
-    { name: 'red', label: '◉ RED THEME', color: '#ff4d4d' },
-    { name: 'blue', label: '◉ BLUE THEME', color: '#60a5fa' },
-    { name: 'cyan', label: '◉ CYAN THEME', color: '#22d3ee' },
-    { name: 'inverted-green', label: '◉ INVERTED GREEN', color: '#1b5e20' },
-    { name: 'gold', label: '◉ GOLD THEME', color: '#fde047' },
-    { name: 'silver', label: '◉ SILVER THEME', color: '#cbd5e1' },
-    { name: 'bronze', label: '◉ BRONZE THEME', color: '#fdba74' }
+    { name: '', label: '◉ GREEN PHOSPHOR' },
+    { name: 'amber', label: '◉ AMBER PHOSPHOR' },
+    { name: 'mauve', label: '◉ MAUVE PHOSPHOR' },
+    { name: 'dark', label: '◉ DARK CODER' },
+    { name: 'light', label: '◉ LIGHT TERMINAL' },
+    { name: 'blackedout', label: '◉ BLACKED OUT' },
+    { name: 'red', label: '◉ RED THEME' },
+    { name: 'blue', label: '◉ BLUE THEME' },
+    { name: 'cyan', label: '◉ CYAN THEME' },
+    { name: 'inverted-green', label: '◉ INVERTED GREEN' },
+    { name: 'gold', label: '◉ GOLD THEME' },
+    { name: 'silver', label: '◉ SILVER THEME' },
+    { name: 'bronze', label: '◉ BRONZE THEME' }
   ];
   let themeIdx = 0;
 
@@ -943,8 +1105,17 @@
   const ctx = canvas.getContext('2d');
   const scoreVal = document.getElementById('score-val');
   const highVal = document.getElementById('high-val');
-  const stageVal = document.getElementById('stage-val');
+  const maxStageVal = document.getElementById('max-stage-val');
   const livesVal = document.getElementById('lives-val');
+  const highDateSub = document.getElementById('high-date-sub');
+  const stageDateSub = document.getElementById('stage-date-sub');
+  const stageCurSub = document.getElementById('stage-cur-sub');
+  const livesCountSub = document.getElementById('lives-count-sub');
+
+  const invWeapon = document.getElementById('inv-weapon');
+  const invShields = document.getElementById('inv-shields');
+  const invEmp = document.getElementById('inv-emp');
+
   const themeBtn = document.getElementById('theme-btn');
   const audioBtn = document.getElementById('audio-btn');
   const crtBtn = document.getElementById('crt-btn');
@@ -963,16 +1134,38 @@
   const H = canvas.height;
 
   let score = 0;
-  let highScore = localStorage.getItem('galaga_high_score') || 0;
   let stage = 1;
   let lives = 3;
-  let gameState = 'START'; // 'START', 'PLAYING', 'PAUSED', 'GAMEOVER'
+  let gameState = 'START';
   let previousState = 'START';
   let autoFire = true;
   let crtOn = true;
   let showControls = true;
 
-  highVal.textContent = String(highScore).padStart(6, '0');
+  // Persistent localStorage records
+  let highScore = localStorage.getItem('galaga_high_score') || 0;
+  let highScoreDate = localStorage.getItem('galaga_high_score_date') || 'NONE';
+  let maxStage = localStorage.getItem('galaga_max_stage') || 1;
+  let maxStageDate = localStorage.getItem('galaga_max_stage_date') || 'NONE';
+
+  function formatShortDate(isoString) {
+    if (!isoString || isoString === 'NONE') return 'NONE';
+    try {
+      const d = new Date(isoString);
+      return `${d.getMonth()+1}/${d.getDate()}/${String(d.getFullYear()).slice(-2)} ${String(d.getHours()).padStart(2,'0')}:${String(d.getMinutes()).padStart(2,'0')}`;
+    } catch(e) {
+      return isoString;
+    }
+  }
+
+  function updateHeaderDisplay() {
+    highVal.textContent = String(highScore).padStart(6, '0');
+    highDateSub.textContent = formatShortDate(highScoreDate);
+    maxStageVal.textContent = String(maxStage).padStart(2, '0');
+    stageDateSub.textContent = formatShortDate(maxStageDate);
+  }
+
+  updateHeaderDisplay();
 
   const keys = { left: false, right: false, fire: false };
 
@@ -982,8 +1175,8 @@
     w: 24,
     h: 24,
     speed: 4.5,
-    dual: false,
-    shields: 0,
+    blasterLevel: 1, // 1 = SINGLE, 2 = DUAL (2 Ships), 3 = TRIPLE (3 Ships)
+    shields: 0,      // Max 3 stackable shields
     empCount: 1,
     cooldown: 0
   };
@@ -1011,6 +1204,29 @@
 
   function addPopup(text, x, y, color) {
     popups.push({ text, x, y, opacity: 1.0, color: color || getThemeColor() });
+  }
+
+  function updateInventoryHUD() {
+    if (player.blasterLevel === 1) {
+      invWeapon.textContent = 'SINGLE (1)';
+      invWeapon.className = 'inv-badge';
+    } else if (player.blasterLevel === 2) {
+      invWeapon.textContent = 'DUAL (2)';
+      invWeapon.className = 'inv-badge active-gold';
+    } else {
+      invWeapon.textContent = 'TRIPLE (3)';
+      invWeapon.className = 'inv-badge active-gold';
+    }
+
+    invShields.textContent = `${player.shields} / 3 SHIELDS`;
+    invShields.className = `inv-badge ${player.shields > 0 ? 'active-cyan' : ''}`;
+
+    invEmp.textContent = `${player.empCount} CHARGE${player.empCount !== 1 ? 'S' : ''}`;
+    invEmp.className = `inv-badge ${player.empCount > 0 ? 'active-green' : ''}`;
+
+    stageCurSub.textContent = `STAGE ${String(stage).padStart(2, '0')}`;
+    livesVal.textContent = '▲'.repeat(Math.max(0, lives));
+    livesCountSub.textContent = `${lives} ${lives === 1 ? 'SHIP' : 'SHIPS'}`;
   }
 
   function spawnEnemies() {
@@ -1043,17 +1259,41 @@
     }
   }
 
+  function checkAndSaveHighRecords() {
+    const now = new Date().toISOString();
+    let updated = false;
+
+    if (score > highScore) {
+      highScore = score;
+      highScoreDate = now;
+      localStorage.setItem('galaga_high_score', highScore);
+      localStorage.setItem('galaga_high_score_date', highScoreDate);
+      updated = true;
+    }
+
+    if (stage > maxStage) {
+      maxStage = stage;
+      maxStageDate = now;
+      localStorage.setItem('galaga_max_stage', maxStage);
+      localStorage.setItem('galaga_max_stage_date', maxStageDate);
+      updated = true;
+    }
+
+    if (updated) {
+      updateHeaderDisplay();
+    }
+  }
+
   function startGame() {
     score = 0;
     stage = 1;
     lives = 3;
     player.x = W / 2;
-    player.dual = false;
+    player.blasterLevel = 1;
     player.shields = 0;
     player.empCount = 1;
     scoreVal.textContent = '000000';
-    stageVal.textContent = '01';
-    updateLivesDisplay();
+    updateInventoryHUD();
     spawnEnemies();
     gameState = 'PLAYING';
     pauseBtn.textContent = '⏸️ PAUSE';
@@ -1091,10 +1331,6 @@
     }
   }
 
-  function updateLivesDisplay() {
-    livesVal.textContent = '▲'.repeat(Math.max(0, lives));
-  }
-
   function triggerEMP() {
     if (gameState !== 'PLAYING' || player.empCount <= 0) return;
     audio.init();
@@ -1112,6 +1348,8 @@
     });
     enemies = enemies.filter(e => e.hp > 0);
     scoreVal.textContent = String(score).padStart(6, '0');
+    checkAndSaveHighRecords();
+    updateInventoryHUD();
     addPopup('EMP SHOCKWAVE!', player.x, player.y - 20, '#22d3ee');
   }
 
@@ -1133,11 +1371,21 @@
     if (player.cooldown > 0 || gameState !== 'PLAYING') return;
     audio.init();
     audio.laser();
-    if (player.dual) {
+    
+    // 1st Level: Single Laser (1 Ship)
+    if (player.blasterLevel === 1) {
+      lasers.push({ x: player.x, y: player.y - 10, w: 3, h: 10, speed: 9 });
+    } 
+    // 2nd Level: Dual Lasers (2 Ships)
+    else if (player.blasterLevel === 2) {
       lasers.push({ x: player.x - 8, y: player.y - 10, w: 3, h: 10, speed: 9 });
       lasers.push({ x: player.x + 8, y: player.y - 10, w: 3, h: 10, speed: 9 });
-    } else {
+    } 
+    // 3rd Level: Triple Lasers (3 Ships firing 3 parallel beams)
+    else {
+      lasers.push({ x: player.x - 16, y: player.y - 6, w: 3, h: 10, speed: 9 });
       lasers.push({ x: player.x, y: player.y - 10, w: 3, h: 10, speed: 9 });
+      lasers.push({ x: player.x + 16, y: player.y - 6, w: 3, h: 10, speed: 9 });
     }
     player.cooldown = 10;
   }
@@ -1169,18 +1417,30 @@
 
     powerups.forEach(p => p.y += 1.8);
     powerups.forEach(p => {
-      if (Math.hypot(p.x - player.x, p.y - player.y) < 20) {
+      if (Math.hypot(p.x - player.x, p.y - player.y) < 22) {
         if (p.type === 'DUAL') {
-          player.dual = true;
-          addPopup('+DUAL CANNONS!', player.x, player.y - 20, '#fbbf24');
+          if (player.blasterLevel < 3) {
+            player.blasterLevel++;
+            const title = player.blasterLevel === 2 ? '+DUAL BLASTERS!' : '+TRIPLE BLASTERS!';
+            addPopup(title, player.x, player.y - 20, '#fbbf24');
+          } else {
+            score += 300;
+            addPopup('+1 WEAPON MAX! (+300 PTS)', player.x, player.y - 20, '#fbbf24');
+          }
         } else if (p.type === 'SHIELD') {
-          player.shields++;
-          addPopup('+1 SHIELD BARRIER!', player.x, player.y - 20, '#22d3ee');
+          if (player.shields < 3) {
+            player.shields++;
+            addPopup(`+1 SHIELD (${player.shields}/3)!`, player.x, player.y - 20, '#22d3ee');
+          } else {
+            score += 200;
+            addPopup('+200 BONUS PTS!', player.x, player.y - 20, '#22d3ee');
+          }
         } else if (p.type === 'EMP') {
           player.empCount++;
           addPopup('+1 EMP SHOCKWAVE!', player.x, player.y - 20, '#33ff66');
         }
         p.collected = true;
+        updateInventoryHUD();
         audio.playTone(880, 'sine', 0.2);
       }
     });
@@ -1228,13 +1488,14 @@
             createExplosion(e.x, e.y);
             score += e.state === 'DIVING' ? 100 : 50;
             scoreVal.textContent = String(score).padStart(6, '0');
+            checkAndSaveHighRecords();
             
             let rand = Math.random();
-            if (rand < 0.04) {
+            if (rand < 0.05) {
               powerups.push({ x: e.x, y: e.y, type: 'SHIELD', collected: false });
-            } else if (rand < 0.08) {
+            } else if (rand < 0.10) {
               powerups.push({ x: e.x, y: e.y, type: 'DUAL', collected: false });
-            } else if (rand < 0.12) {
+            } else if (rand < 0.14) {
               powerups.push({ x: e.x, y: e.y, type: 'EMP', collected: false });
             }
           }
@@ -1259,7 +1520,8 @@
 
     if (enemies.length === 0) {
       stage++;
-      stageVal.textContent = String(stage).padStart(2, '0');
+      checkAndSaveHighRecords();
+      updateInventoryHUD();
       spawnEnemies();
     }
 
@@ -1274,22 +1536,19 @@
   function handlePlayerHit() {
     if (player.shields > 0) {
       player.shields--;
+      updateInventoryHUD();
       audio.playTone(400, 'square', 0.2);
-      addPopup('SHIELD ABSORBED HIT!', player.x, player.y - 20, '#22d3ee');
+      addPopup(`SHIELD ABSORBED HIT (${player.shields}/3)!`, player.x, player.y - 20, '#22d3ee');
       return;
     }
 
     createExplosion(player.x, player.y);
     lives--;
-    player.dual = false;
-    updateLivesDisplay();
+    player.blasterLevel = 1;
+    updateInventoryHUD();
     if (lives <= 0) {
       gameState = 'GAMEOVER';
-      if (score > highScore) {
-        highScore = score;
-        localStorage.setItem('galaga_high_score', highScore);
-        highVal.textContent = String(highScore).padStart(6, '0');
-      }
+      checkAndSaveHighRecords();
     } else {
       player.x = W / 2;
     }
@@ -1309,6 +1568,7 @@
     if (gameState === 'PLAYING' || gameState === 'PAUSED') {
       ctx.strokeStyle = themeColor;
       ctx.lineWidth = 2;
+      
       const drawShip = (x, y) => {
         ctx.beginPath();
         ctx.moveTo(x, y - 12);
@@ -1318,15 +1578,22 @@
         ctx.closePath();
         ctx.stroke();
       };
-      drawShip(player.x, player.y);
-      if (player.dual) drawShip(player.x - 16, player.y + 4);
 
+      // Render player fleet formation (Single / Dual / Triple Blasters)
+      drawShip(player.x, player.y);
+      if (player.blasterLevel >= 2) drawShip(player.x - 16, player.y + 4);
+      if (player.blasterLevel >= 3) drawShip(player.x + 16, player.y + 4);
+
+      // Render stackable concentric shield barriers around player fleet
       if (player.shields > 0) {
         ctx.strokeStyle = '#22d3ee';
         ctx.lineWidth = 1.5;
-        ctx.beginPath();
-        ctx.arc(player.x, player.y, 18, 0, Math.PI * 2);
-        ctx.stroke();
+        const radii = [18, 23, 28];
+        for (let i = 0; i < player.shields; i++) {
+          ctx.beginPath();
+          ctx.arc(player.x, player.y, radii[i], 0, Math.PI * 2);
+          ctx.stroke();
+        }
       }
     }
 
@@ -1501,7 +1768,7 @@
     startGame();
   });
 
-  // Tab switching inside HELP Modal
+  // Help modal tab switcher
   const tabBtns = document.querySelectorAll('.tab-btn');
   const helpSections = document.querySelectorAll('.help-section');
 
