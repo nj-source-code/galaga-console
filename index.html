@@ -5,7 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-  <title>GALAGA_CONSOLE // v2.2</title>
+  <title>GALAGA_CONSOLE // v2.3</title>
   <style>
     :root {
       --bg-main: #040806;
@@ -21,94 +21,189 @@
       --accent-red: #ff3344;
       --accent-yellow: #f59e0b;
       --accent-cyan: #22d3ee;
-      --accent-blue: #3b82f6;
       --font-mono: 'Courier New', Courier, monospace;
       --highlight-bg: #123d20;
       --canvas-bg: #020503;
     }
 
     [data-theme="amber"] {
-      --bg-main: #0c0a06; --bg-card: #18130b; --bg-card-hover: #261f12;
-      --border-color: #423018; --border-accent: #664a24; --text-main: #f59e0b;
-      --text-dim: #b45309; --text-muted: #78350f; --text-bright: #fde68a;
-      --accent-gold: #38bdf8; --highlight-bg: #38200b; --canvas-bg: #060402;
+      --bg-main: #0c0a06;
+      --bg-card: #18130b;
+      --bg-card-hover: #261f12;
+      --border-color: #423018;
+      --border-accent: #664a24;
+      --text-main: #f59e0b;
+      --text-dim: #b45309;
+      --text-muted: #78350f;
+      --text-bright: #fde68a;
+      --accent-gold: #38bdf8;
+      --highlight-bg: #38200b;
+      --canvas-bg: #060402;
     }
 
     [data-theme="mauve"] {
-      --bg-main: #0b060a; --bg-card: #150b13; --bg-card-hover: #21121e;
-      --border-color: #3b1d33; --border-accent: #5c2d50; --text-main: #e879f9;
-      --text-dim: #a228b5; --text-muted: #6b1557; --text-bright: #f5d0fe;
-      --accent-gold: #f6d860; --highlight-bg: #35142e; --canvas-bg: #050204;
+      --bg-main: #0b060a;
+      --bg-card: #150b13;
+      --bg-card-hover: #21121e;
+      --border-color: #3b1d33;
+      --border-accent: #5c2d50;
+      --text-main: #e879f9;
+      --text-dim: #a228b5;
+      --text-muted: #6b1557;
+      --text-bright: #f5d0fe;
+      --accent-gold: #f6d860;
+      --highlight-bg: #35142e;
+      --canvas-bg: #050204;
     }
 
     [data-theme="dark"] {
-      --bg-main: #0d1117; --bg-card: #161b22; --bg-card-hover: #21262d;
-      --border-color: #30363d; --border-accent: #484f58; --text-main: #c9d1d9;
-      --text-dim: #8b949e; --text-muted: #484f58; --text-bright: #ffffff;
-      --accent-gold: #58a6ff; --highlight-bg: #1f2937; --canvas-bg: #080a0f;
+      --bg-main: #0d1117;
+      --bg-card: #161b22;
+      --bg-card-hover: #21262d;
+      --border-color: #30363d;
+      --border-accent: #484f58;
+      --text-main: #c9d1d9;
+      --text-dim: #8b949e;
+      --text-muted: #484f58;
+      --text-bright: #ffffff;
+      --accent-gold: #58a6ff;
+      --highlight-bg: #1f2937;
+      --canvas-bg: #080a0f;
     }
 
     [data-theme="light"] {
-      --bg-main: #eef2f6; --bg-card: #ffffff; --bg-card-hover: #f1f5f9;
-      --border-color: #cbd5e1; --border-accent: #94a3b8; --text-main: #0f172a;
-      --text-dim: #475569; --text-muted: #94a3b8; --text-bright: #020617;
-      --accent-gold: #2563eb; --highlight-bg: #e2e8f0; --canvas-bg: #f8fafc;
+      --bg-main: #eef2f6;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f5f9;
+      --border-color: #cbd5e1;
+      --border-accent: #94a3b8;
+      --text-main: #0f172a;
+      --text-dim: #475569;
+      --text-muted: #94a3b8;
+      --text-bright: #020617;
+      --accent-gold: #2563eb;
+      --highlight-bg: #e2e8f0;
+      --canvas-bg: #f8fafc;
     }
 
     [data-theme="blackedout"] {
-      --bg-main: #000000; --bg-card: #080808; --bg-card-hover: #121212;
-      --border-color: #222222; --border-accent: #333333; --text-main: #e0e0e0;
-      --text-dim: #888888; --text-muted: #444444; --text-bright: #ffffff;
-      --accent-gold: #38bdf8; --highlight-bg: #1a1a1a; --canvas-bg: #000000;
+      --bg-main: #000000;
+      --bg-card: #080808;
+      --bg-card-hover: #121212;
+      --border-color: #222222;
+      --border-accent: #333333;
+      --text-main: #e0e0e0;
+      --text-dim: #888888;
+      --text-muted: #444444;
+      --text-bright: #ffffff;
+      --accent-gold: #38bdf8;
+      --highlight-bg: #1a1a1a;
+      --canvas-bg: #000000;
     }
 
     [data-theme="red"] {
-      --bg-main: #120404; --bg-card: #1c0808; --bg-card-hover: #2a0d0d;
-      --border-color: #4a1515; --border-accent: #6b2121; --text-main: #ff4d4d;
-      --text-dim: #c82323; --text-muted: #7a1515; --text-bright: #ffb3b3;
-      --accent-gold: #fbbf24; --highlight-bg: #3f1212; --canvas-bg: #080202;
+      --bg-main: #120404;
+      --bg-card: #1c0808;
+      --bg-card-hover: #2a0d0d;
+      --border-color: #4a1515;
+      --border-accent: #6b2121;
+      --text-main: #ff4d4d;
+      --text-dim: #c82323;
+      --text-muted: #7a1515;
+      --text-bright: #ffb3b3;
+      --accent-gold: #fbbf24;
+      --highlight-bg: #3f1212;
+      --canvas-bg: #080202;
     }
 
     [data-theme="blue"] {
-      --bg-main: #040914; --bg-card: #0a1124; --bg-card-hover: #101c36;
-      --border-color: #1e3a8a; --border-accent: #2563eb; --text-main: #60a5fa;
-      --text-dim: #3b82f6; --text-muted: #1d4ed8; --text-bright: #93c5fd;
-      --accent-gold: #fbbf24; --highlight-bg: #1e293b; --canvas-bg: #02050d;
+      --bg-main: #040914;
+      --bg-card: #0a1124;
+      --bg-card-hover: #101c36;
+      --border-color: #1e3a8a;
+      --border-accent: #2563eb;
+      --text-main: #60a5fa;
+      --text-dim: #3b82f6;
+      --text-muted: #1d4ed8;
+      --text-bright: #93c5fd;
+      --accent-gold: #fbbf24;
+      --highlight-bg: #1e293b;
+      --canvas-bg: #02050d;
     }
 
     [data-theme="cyan"] {
-      --bg-main: #021013; --bg-card: #061a1f; --bg-card-hover: #0b2830;
-      --border-color: #155e75; --border-accent: #0891b2; --text-main: #22d3ee;
-      --text-dim: #06b6d4; --text-muted: #0e7490; --text-bright: #67e8f9;
-      --accent-gold: #fde047; --highlight-bg: #0f3443; --canvas-bg: #01080a;
+      --bg-main: #021013;
+      --bg-card: #061a1f;
+      --bg-card-hover: #0b2830;
+      --border-color: #155e75;
+      --border-accent: #0891b2;
+      --text-main: #22d3ee;
+      --text-dim: #06b6d4;
+      --text-muted: #0e7490;
+      --text-bright: #67e8f9;
+      --accent-gold: #fde047;
+      --highlight-bg: #0f3443;
+      --canvas-bg: #01080a;
     }
 
     [data-theme="inverted-green"] {
-      --bg-main: #e8f5e9; --bg-card: #ffffff; --bg-card-hover: #f1f8f1;
-      --border-color: #a5d6a7; --border-accent: #66bb6a; --text-main: #1b5e20;
-      --text-dim: #2e7d32; --text-muted: #4caf50; --text-bright: #0d3b10;
-      --accent-gold: #d97706; --highlight-bg: #c8e6c9; --canvas-bg: #f1f8f1;
+      --bg-main: #e8f5e9;
+      --bg-card: #ffffff;
+      --bg-card-hover: #f1f8f1;
+      --border-color: #a5d6a7;
+      --border-accent: #66bb6a;
+      --text-main: #1b5e20;
+      --text-dim: #2e7d32;
+      --text-muted: #4caf50;
+      --text-bright: #0d3b10;
+      --accent-gold: #d97706;
+      --highlight-bg: #c8e6c9;
+      --canvas-bg: #f1f8f1;
     }
 
     [data-theme="gold"] {
-      --bg-main: #141106; --bg-card: #1f1b0a; --bg-card-hover: #2b250e;
-      --border-color: #5c4d16; --border-accent: #856f21; --text-main: #fde047;
-      --text-dim: #ca8a04; --text-muted: #854d0e; --text-bright: #fef08a;
-      --accent-gold: #38bdf8; --highlight-bg: #3d3410; --canvas-bg: #0a0803;
+      --bg-main: #141106;
+      --bg-card: #1f1b0a;
+      --bg-card-hover: #2b250e;
+      --border-color: #5c4d16;
+      --border-accent: #856f21;
+      --text-main: #fde047;
+      --text-dim: #ca8a04;
+      --text-muted: #854d0e;
+      --text-bright: #fef08a;
+      --accent-gold: #38bdf8;
+      --highlight-bg: #3d3410;
+      --canvas-bg: #0a0803;
     }
 
     [data-theme="silver"] {
-      --bg-main: #0f1115; --bg-card: #181c24; --bg-card-hover: #222834;
-      --border-color: #3f4b60; --border-accent: #64748b; --text-main: #cbd5e1;
-      --text-dim: #94a3b8; --text-muted: #64748b; --text-bright: #f8fafc;
-      --accent-gold: #38bdf8; --highlight-bg: #273043; --canvas-bg: #08090c;
+      --bg-main: #0f1115;
+      --bg-card: #181c24;
+      --bg-card-hover: #222834;
+      --border-color: #3f4b60;
+      --border-accent: #64748b;
+      --text-main: #cbd5e1;
+      --text-dim: #94a3b8;
+      --text-muted: #64748b;
+      --text-bright: #f8fafc;
+      --accent-gold: #38bdf8;
+      --highlight-bg: #273043;
+      --canvas-bg: #08090c;
     }
 
     [data-theme="bronze"] {
-      --bg-main: #120b08; --bg-card: #1c120e; --bg-card-hover: #281a14;
-      --border-color: #5c3320; --border-accent: #8a4d30; --text-main: #fdba74;
-      --text-dim: #f97316; --text-muted: #c2410c; --text-bright: #ffedd5;
-      --accent-gold: #fde047; --highlight-bg: #3b2015; --canvas-bg: #0a0604;
+      --bg-main: #120b08;
+      --bg-card: #1c120e;
+      --bg-card-hover: #281a14;
+      --border-color: #5c3320;
+      --border-accent: #8a4d30;
+      --text-main: #fdba74;
+      --text-dim: #f97316;
+      --text-muted: #c2410c;
+      --text-bright: #ffedd5;
+      --accent-gold: #fde047;
+      --highlight-bg: #3b2015;
+      --canvas-bg: #0a0604;
     }
 
     * {
@@ -120,6 +215,12 @@
       touch-action: manipulation;
     }
 
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
+
     body {
       background-color: var(--bg-main);
       color: var(--text-main);
@@ -127,51 +228,24 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      min-height: 100vh;
       padding: 6px;
       transition: background-color 0.2s, color 0.2s;
-      overflow: hidden;
     }
 
     .terminal-wrapper {
       width: 100%;
-      max-width: 520px;
-      height: 100vh;
-      max-height: 920px;
+      max-width: 480px;
+      height: 100%;
+      max-height: 100vh;
       background-color: var(--bg-card);
       border: 1px solid var(--border-color);
-      border-radius: 12px;
-      padding: 10px;
+      border-radius: 8px;
+      padding: 8px;
       box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
       display: flex;
       flex-direction: column;
-      gap: 8px;
+      gap: 6px;
       position: relative;
-      transition: all 0.3s ease;
-    }
-
-    /* Fullscreen mode styling */
-    body.fullscreen-mode {
-      padding: 0;
-    }
-    body.fullscreen-mode .terminal-wrapper {
-      max-width: 100vw;
-      height: 100vh;
-      max-height: 100vh;
-      border: none;
-      border-radius: 0;
-      padding: 6px;
-      gap: 4px;
-    }
-
-    body.fullscreen-mode .touch-controls,
-    body.fullscreen-mode .footer-info {
-      display: none !important;
-    }
-
-    body.fullscreen-mode .viewport-frame {
-      flex: 1;
-      aspect-ratio: auto !important;
     }
 
     header {
@@ -180,6 +254,7 @@
       gap: 6px;
       border-bottom: 1px solid var(--border-color);
       padding-bottom: 6px;
+      flex-shrink: 0;
     }
 
     .top-bar {
@@ -187,7 +262,7 @@
       justify-content: space-between;
       align-items: center;
       flex-wrap: wrap;
-      gap: 6px;
+      gap: 4px;
     }
 
     .brand-group {
@@ -232,9 +307,9 @@
       color: var(--text-main);
       border: 1px solid var(--border-color);
       padding: 4px 6px;
-      border-radius: 5px;
+      border-radius: 4px;
       font-family: var(--font-mono);
-      font-size: 0.62rem;
+      font-size: 0.6rem;
       cursor: pointer;
       display: flex;
       align-items: center;
@@ -253,7 +328,7 @@
       gap: 4px;
       background: var(--bg-main);
       padding: 6px;
-      border-radius: 6px;
+      border-radius: 4px;
       border: 1px solid var(--border-color);
       text-align: center;
     }
@@ -271,18 +346,18 @@
     }
 
     .dash-value {
-      font-size: 0.78rem;
+      font-size: 0.75rem;
       font-weight: bold;
       color: var(--text-bright);
     }
 
     .viewport-frame {
       position: relative;
-      width: 100%;
       flex: 1;
+      width: 100%;
       background-color: var(--canvas-bg);
       border: 1px solid var(--border-accent);
-      border-radius: 8px;
+      border-radius: 6px;
       overflow: hidden;
       display: flex;
       justify-content: center;
@@ -313,6 +388,12 @@
       display: flex;
       flex-direction: column;
       gap: 6px;
+      flex-shrink: 0;
+      transition: all 0.2s ease;
+    }
+
+    .touch-controls.hidden {
+      display: none;
     }
 
     .control-row {
@@ -357,29 +438,20 @@
 
     .touch-hint {
       position: absolute;
-      bottom: 8px;
+      bottom: 6px;
       left: 0; right: 0;
       text-align: center;
-      font-size: 0.6rem;
+      font-size: 0.55rem;
       color: var(--text-dim);
       pointer-events: none;
       z-index: 6;
-      letter-spacing: 1px;
-      background: rgba(0,0,0,0.4);
-      padding: 2px 0;
-    }
-
-    .footer-info {
-      text-align: center;
-      font-size: 0.58rem;
-      color: var(--text-muted);
       letter-spacing: 0.5px;
     }
   </style>
 </head>
 <body>
 
-<div class="terminal-wrapper" id="terminal-container">
+<div class="terminal-wrapper">
   <header>
     <div class="top-bar">
       <div class="brand-group">
@@ -388,13 +460,13 @@
           <div class="dot dot-yellow"></div>
           <div class="dot dot-green"></div>
         </div>
-        <div class="brand-title">GALAGA_CONSOLE <span class="version-tag">// v2.2</span></div>
+        <div class="brand-title">GALAGA_CONSOLE <span class="version-tag">// v2.3</span></div>
       </div>
       <div class="header-actions">
-        <button class="btn-header" id="fullscreen-btn">⛶ EXPAND</button>
+        <button class="btn-header" id="controls-toggle-btn">🎮 CONTROLS: SHOW</button>
         <button class="btn-header" id="theme-btn">◉ THEME</button>
         <button class="btn-header" id="audio-btn">🔊 AUDIO</button>
-        <button class="btn-header" id="crt-btn">📺 CRT</button>
+        <button class="btn-header" id="crt-btn">📺 CRT: ON</button>
       </div>
     </div>
 
@@ -420,11 +492,11 @@
 
   <div class="viewport-frame" id="viewport">
     <div class="crt-overlay" id="crt-layer"></div>
-    <div class="touch-hint" id="touch-hint">SLIDE TO STEER · AUTO-FIRE ACTIVE</div>
-    <canvas id="gameCanvas" width="400" height="580"></canvas>
+    <div class="touch-hint" id="touch-hint">SLIDE CANVAS TO STEER</div>
+    <canvas id="gameCanvas" width="400" height="533"></canvas>
   </div>
 
-  <div class="touch-controls" id="touch-controls">
+  <div class="touch-controls" id="touch-controls-panel">
     <div class="control-row">
       <button class="btn-touch" id="btn-left">◀ MOVE LEFT</button>
       <button class="btn-touch btn-fire" id="btn-fire">🔥 FIRE</button>
@@ -434,10 +506,6 @@
       <button class="btn-touch btn-autofire active" id="btn-autofire">⚡ AUTO-FIRE: ON</button>
       <button class="btn-touch" id="btn-emp">💣 EMP SHOCKWAVE</button>
     </div>
-  </div>
-
-  <div class="footer-terminal footer-info" id="footer-info">
-    TOUCH CANVAS TO STEER DIRECTLY · TAP 'EXPAND' FOR FULLSCREEN
   </div>
 </div>
 
@@ -503,36 +571,19 @@
         osc.stop(this.ctx.currentTime + 0.4);
       } catch(e) {}
     }
-    shieldHit() {
+    playTone(freq, type, duration) {
       if (this.muted || !this.ctx) return;
       try {
         const osc = this.ctx.createOscillator();
         const gain = this.ctx.createGain();
-        osc.type = 'triangle';
-        osc.frequency.setValueAtTime(400, this.ctx.currentTime);
-        osc.frequency.linearRampToValueAtTime(100, this.ctx.currentTime + 0.25);
-        gain.gain.setValueAtTime(0.12, this.ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.25);
-        osc.connect(gain);
-        gain.connect(this.ctx.destination);
-        osc.start();
-        osc.stop(this.ctx.currentTime + 0.25);
-      } catch(e) {}
-    }
-    powerup() {
-      if (this.muted || !this.ctx) return;
-      try {
-        const osc = this.ctx.createOscillator();
-        const gain = this.ctx.createGain();
-        osc.type = 'sine';
-        osc.frequency.setValueAtTime(440, this.ctx.currentTime);
-        osc.frequency.setValueAtTime(880, this.ctx.currentTime + 0.1);
+        osc.type = type;
+        osc.frequency.setValueAtTime(freq, this.ctx.currentTime);
         gain.gain.setValueAtTime(0.1, this.ctx.currentTime);
-        gain.gain.linearRampToValueAtTime(0.001, this.ctx.currentTime + 0.25);
+        gain.gain.linearRampToValueAtTime(0.0001, this.ctx.currentTime + duration);
         osc.connect(gain);
         gain.connect(this.ctx.destination);
         osc.start();
-        osc.stop(this.ctx.currentTime + 0.25);
+        osc.stop(this.ctx.currentTime + duration);
       } catch(e) {}
     }
   }
@@ -540,19 +591,19 @@
   const audio = new SoundEngine();
 
   const THEMES = [
-    { name: '', label: '◉ GREEN PHOSPHOR' },
-    { name: 'amber', label: '◉ AMBER PHOSPHOR' },
-    { name: 'mauve', label: '◉ MAUVE PHOSPHOR' },
-    { name: 'dark', label: '◉ DARK CODER' },
-    { name: 'light', label: '◉ LIGHT TERMINAL' },
-    { name: 'blackedout', label: '◉ BLACKED OUT' },
-    { name: 'red', label: '◉ RED THEME' },
-    { name: 'blue', label: '◉ BLUE THEME' },
-    { name: 'cyan', label: '◉ CYAN THEME' },
-    { name: 'inverted-green', label: '◉ INVERTED GREEN' },
-    { name: 'gold', label: '◉ GOLD THEME' },
-    { name: 'silver', label: '◉ SILVER THEME' },
-    { name: 'bronze', label: '◉ BRONZE THEME' }
+    { name: '', label: '◉ GREEN PHOSPHOR', color: '#33ff66' },
+    { name: 'amber', label: '◉ AMBER PHOSPHOR', color: '#f59e0b' },
+    { name: 'mauve', label: '◉ MAUVE PHOSPHOR', color: '#e879f9' },
+    { name: 'dark', label: '◉ DARK CODER', color: '#c9d1d9' },
+    { name: 'light', label: '◉ LIGHT TERMINAL', color: '#0f172a' },
+    { name: 'blackedout', label: '◉ BLACKED OUT', color: '#ffffff' },
+    { name: 'red', label: '◉ RED THEME', color: '#ff4d4d' },
+    { name: 'blue', label: '◉ BLUE THEME', color: '#60a5fa' },
+    { name: 'cyan', label: '◉ CYAN THEME', color: '#22d3ee' },
+    { name: 'inverted-green', label: '◉ INVERTED GREEN', color: '#1b5e20' },
+    { name: 'gold', label: '◉ GOLD THEME', color: '#fde047' },
+    { name: 'silver', label: '◉ SILVER THEME', color: '#cbd5e1' },
+    { name: 'bronze', label: '◉ BRONZE THEME', color: '#fdba74' }
   ];
   let themeIdx = 0;
 
@@ -567,30 +618,20 @@
   const crtBtn = document.getElementById('crt-btn');
   const crtLayer = document.getElementById('crt-layer');
   const autoFireBtn = document.getElementById('btn-autofire');
-  const fullscreenBtn = document.getElementById('fullscreen-btn');
+  const controlsToggleBtn = document.getElementById('controls-toggle-btn');
+  const controlsPanel = document.getElementById('touch-controls-panel');
 
-  let W = canvas.width;
-  let H = canvas.height;
-
-  function resizeCanvasToDisplay() {
-    const rect = canvas.getBoundingClientRect();
-    if (canvas.width !== rect.width || canvas.height !== rect.height) {
-      canvas.width = rect.width;
-      canvas.height = rect.height;
-      W = canvas.width;
-      H = canvas.height;
-      if (player) player.y = H - 45;
-    }
-  }
+  const W = canvas.width;
+  const H = canvas.height;
 
   let score = 0;
   let highScore = localStorage.getItem('galaga_high_score') || 0;
   let stage = 1;
   let lives = 3;
   let gameState = 'START'; 
-  let autoFire = true; 
+  let autoFire = true;
   let crtOn = true;
-  let isFullscreen = false;
+  let showControls = true;
 
   highVal.textContent = String(highScore).padStart(6, '0');
 
@@ -598,12 +639,12 @@
 
   let player = {
     x: W / 2,
-    y: H - 45,
+    y: H - 40,
     w: 24,
     h: 24,
-    speed: 5.0,
+    speed: 4.5,
     dual: false,
-    shield: 0,
+    shields: 0,
     empCount: 1,
     cooldown: 0
   };
@@ -614,9 +655,9 @@
   let particles = [];
   let stars = [];
   let powerups = [];
-  let floatingTexts = [];
+  let popups = [];
 
-  for (let i = 0; i < 70; i++) {
+  for (let i = 0; i < 60; i++) {
     stars.push({
       x: Math.random() * W,
       y: Math.random() * H,
@@ -629,159 +670,18 @@
     return getComputedStyle(document.documentElement).getPropertyValue('--text-main').trim() || '#33ff66';
   }
 
-  function drawPlayerShip(x, y, scale = 1) {
-    const themeColor = getThemeColor();
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.scale(scale, scale);
-    ctx.strokeStyle = themeColor;
-    ctx.fillStyle = themeColor;
-    ctx.lineWidth = 2;
-
-    // Cockpit & Body Wings
-    ctx.beginPath();
-    ctx.moveTo(0, -14);
-    ctx.lineTo(-4, -6);
-    ctx.lineTo(-12, 6);
-    ctx.lineTo(-14, 12);
-    ctx.lineTo(-6, 8);
-    ctx.lineTo(0, 10);
-    ctx.lineTo(6, 8);
-    ctx.lineTo(14, 12);
-    ctx.lineTo(12, 6);
-    ctx.lineTo(4, -6);
-    ctx.closePath();
-    ctx.stroke();
-
-    // Cannons
-    ctx.beginPath();
-    ctx.moveTo(-10, -2); ctx.lineTo(-10, -10);
-    ctx.moveTo(10, -2); ctx.lineTo(10, -10);
-    ctx.stroke();
-
-    ctx.restore();
-  }
-
-  function drawBossGalaga(x, y, color = '#ff3344') {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.strokeStyle = color;
-    ctx.fillStyle = color;
-    ctx.lineWidth = 1.8;
-
-    // Head pincers
-    ctx.beginPath();
-    ctx.moveTo(-8, -10); ctx.lineTo(-4, -14); ctx.lineTo(0, -8); ctx.lineTo(4, -14); ctx.lineTo(8, -10);
-    // Outer Wings
-    ctx.lineTo(12, -2); ctx.lineTo(14, 6); ctx.lineTo(8, 10); ctx.lineTo(4, 6); ctx.lineTo(0, 8);
-    ctx.lineTo(-4, 6); ctx.lineTo(-8, 10); ctx.lineTo(-14, 6); ctx.lineTo(-12, -2);
-    ctx.closePath();
-    ctx.stroke();
-
-    // Eyes
-    ctx.fillRect(-4, -4, 2, 3);
-    ctx.fillRect(2, -4, 2, 3);
-    ctx.restore();
-  }
-
-  function drawGoei(x, y, color = '#22d3ee') {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.strokeStyle = color;
-    ctx.lineWidth = 1.6;
-
-    // Circular center body with side sweep wings
-    ctx.beginPath();
-    ctx.arc(0, -2, 5, 0, Math.PI * 2);
-    ctx.stroke();
-
-    ctx.beginPath();
-    ctx.moveTo(-5, -2); ctx.lineTo(-14, -6); ctx.lineTo(-12, 6); ctx.lineTo(-4, 4);
-    ctx.moveTo(5, -2); ctx.lineTo(14, -6); ctx.lineTo(12, 6); ctx.lineTo(4, 4);
-    ctx.stroke();
-    ctx.restore();
-  }
-
-  function drawZako(x, y, color) {
-    ctx.save();
-    ctx.translate(x, y);
-    ctx.strokeStyle = color || getThemeColor();
-    ctx.lineWidth = 1.5;
-
-    // Triangle moth alien body
-    ctx.beginPath();
-    ctx.moveTo(0, -10);
-    ctx.lineTo(10, 6);
-    ctx.lineTo(4, 10);
-    ctx.lineTo(0, 6);
-    ctx.lineTo(-4, 10);
-    ctx.lineTo(-10, 6);
-    ctx.closePath();
-    ctx.stroke();
-
-    ctx.restore();
-  }
-
-  function drawPowerupIcon(p) {
-    ctx.save();
-    ctx.translate(p.x, p.y);
-
-    if (p.type === 'SHIELD') {
-      // Shield Powerup - Glowing Blue Ring & Shield Icon
-      ctx.strokeStyle = '#3b82f6';
-      ctx.shadowColor = '#3b82f6';
-      ctx.shadowBlur = 8;
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(0, 0, 10, 0, Math.PI * 2);
-      ctx.stroke();
-
-      ctx.beginPath();
-      ctx.moveTo(0, -5); ctx.lineTo(5, -2); ctx.lineTo(4, 4); ctx.lineTo(0, 7); ctx.lineTo(-4, 4); ctx.lineTo(-5, -2);
-      ctx.closePath();
-      ctx.fillStyle = '#60a5fa';
-      ctx.fill();
-    } else if (p.type === 'DUAL') {
-      // Dual Ship Powerup - Twin Gold Ship Silhouettes
-      ctx.strokeStyle = '#fbbf24';
-      ctx.shadowColor = '#fbbf24';
-      ctx.shadowBlur = 8;
-      ctx.lineWidth = 1.5;
-      ctx.strokeRect(-10, -10, 20, 20);
-
-      drawPlayerShip(-4, 0, 0.45);
-      drawPlayerShip(4, 0, 0.45);
-    } else if (p.type === 'EMP') {
-      // EMP Powerup - Cyan Shockwave Pulse
-      ctx.strokeStyle = '#22d3ee';
-      ctx.shadowColor = '#22d3ee';
-      ctx.shadowBlur = 8;
-      ctx.lineWidth = 2;
-      ctx.beginPath();
-      ctx.arc(0, 0, 9, 0, Math.PI * 2);
-      ctx.stroke();
-
-      ctx.fillStyle = '#67e8f9';
-      ctx.font = 'bold 10px monospace';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillText('⚡', 0, 1);
-    }
-    ctx.restore();
-  }
-
-  function spawnFloatingText(x, y, text, color = '#fbbf24') {
-    floatingTexts.push({ x, y, text, color, life: 1.0 });
+  function addPopup(text, x, y, color) {
+    popups.push({ text, x, y, opacity: 1.0, color: color || getThemeColor() });
   }
 
   function spawnEnemies() {
     enemies = [];
     const rows = 4;
     const cols = 8;
-    const spacingX = Math.min(38, W / 9);
-    const spacingY = 32;
+    const spacingX = 36;
+    const spacingY = 30;
     const startX = (W - (cols * spacingX)) / 2 + spacingX / 2;
-    const startY = 70;
+    const startY = 60;
 
     for (let r = 0; r < rows; r++) {
       for (let c = 0; c < cols; c++) {
@@ -792,8 +692,8 @@
           homeY: startY + r * spacingY,
           x: startX + c * spacingX,
           y: -50 - (r * 30 + c * 10),
-          w: 22,
-          h: 22,
+          w: 20,
+          h: 20,
           type: type,
           hp: hp,
           state: 'ENTERING',
@@ -810,7 +710,7 @@
     lives = 3;
     player.x = W / 2;
     player.dual = false;
-    player.shield = 0;
+    player.shields = 0;
     player.empCount = 1;
     scoreVal.textContent = '000000';
     stageVal.textContent = '01';
@@ -828,7 +728,6 @@
     audio.init();
     audio.emp();
     player.empCount--;
-    spawnFloatingText(player.x, player.y - 20, "EMP SHOCKWAVE!", "#22d3ee");
     enemyLasers = [];
     enemies.forEach(e => {
       if (e.state === 'DIVING') {
@@ -841,16 +740,17 @@
     });
     enemies = enemies.filter(e => e.hp > 0);
     scoreVal.textContent = String(score).padStart(6, '0');
+    addPopup('EMP SHOCKWAVE!', player.x, player.y - 20, '#22d3ee');
   }
 
   function createExplosion(x, y) {
     audio.explosion();
     const mainColor = getThemeColor();
-    for (let i = 0; i < 18; i++) {
+    for (let i = 0; i < 16; i++) {
       particles.push({
         x: x, y: y,
-        vx: (Math.random() - 0.5) * 7,
-        vy: (Math.random() - 0.5) * 7,
+        vx: (Math.random() - 0.5) * 6,
+        vy: (Math.random() - 0.5) * 6,
         life: 1.0,
         color: mainColor
       });
@@ -862,17 +762,15 @@
     audio.init();
     audio.laser();
     if (player.dual) {
-      lasers.push({ x: player.x - 10, y: player.y - 12, w: 3, h: 10, speed: 9.5 });
-      lasers.push({ x: player.x + 10, y: player.y - 12, w: 3, h: 10, speed: 9.5 });
+      lasers.push({ x: player.x - 8, y: player.y - 10, w: 3, h: 10, speed: 9 });
+      lasers.push({ x: player.x + 8, y: player.y - 10, w: 3, h: 10, speed: 9 });
     } else {
-      lasers.push({ x: player.x, y: player.y - 12, w: 3, h: 10, speed: 9.5 });
+      lasers.push({ x: player.x, y: player.y - 10, w: 3, h: 10, speed: 9 });
     }
-    player.cooldown = 9;
+    player.cooldown = 10;
   }
 
   function update() {
-    resizeCanvasToDisplay();
-
     stars.forEach(s => {
       s.y += s.speed;
       if (s.y > H) {
@@ -899,32 +797,32 @@
 
     powerups.forEach(p => p.y += 1.8);
     powerups.forEach(p => {
-      if (Math.hypot(p.x - player.x, p.y - player.y) < 22) {
-        if (p.type === 'SHIELD') {
-          player.shield = Math.min(3, player.shield + 1);
-          spawnFloatingText(player.x, player.y - 20, "+1 SHIELD ACTIVE!", "#3b82f6");
-        } else if (p.type === 'DUAL') {
+      if (Math.hypot(p.x - player.x, p.y - player.y) < 20) {
+        if (p.type === 'DUAL') {
           player.dual = true;
-          spawnFloatingText(player.x, player.y - 20, "DUAL CANNONS!", "#fbbf24");
+          addPopup('+DUAL CANNONS!', player.x, player.y - 20, '#fbbf24');
+        } else if (p.type === 'SHIELD') {
+          player.shields++;
+          addPopup('+1 SHIELD BARRIER!', player.x, player.y - 20, '#22d3ee');
         } else if (p.type === 'EMP') {
           player.empCount++;
-          spawnFloatingText(player.x, player.y - 20, "+1 EMP SHOCKWAVE!", "#22d3ee");
+          addPopup('+1 EMP SHOCKWAVE!', player.x, player.y - 20, '#33ff66');
         }
         p.collected = true;
-        audio.powerup();
+        audio.playTone(880, 'sine', 0.2);
       }
     });
-    powerups = powerups.filter(p => !p.collected && p.y < H + 30);
+    powerups = powerups.filter(p => !p.collected && p.y < H + 20);
 
-    floatingTexts.forEach(ft => {
-      ft.y -= 0.8;
-      ft.life -= 0.02;
+    popups.forEach(p => {
+      p.y -= 0.8;
+      p.opacity -= 0.02;
     });
-    floatingTexts = floatingTexts.filter(ft => ft.life > 0);
+    popups = popups.filter(p => p.opacity > 0);
 
     enemies.forEach(e => {
       if (e.state === 'ENTERING') {
-        e.y += 3.2;
+        e.y += 3;
         e.x += Math.sin(e.y * 0.05) * 2;
         if (e.y >= e.homeY) {
           e.y = e.homeY;
@@ -932,17 +830,17 @@
           e.state = 'FORMATION';
         }
       } else if (e.state === 'FORMATION') {
-        e.x = e.homeX + Math.sin(Date.now() * 0.002) * 14;
-        if (Math.random() < 0.0018 * stage) {
+        e.x = e.homeX + Math.sin(Date.now() * 0.002) * 12;
+        if (Math.random() < 0.0015 * stage) {
           e.state = 'DIVING';
           e.diveTime = 0;
         }
       } else if (e.state === 'DIVING') {
         e.diveTime += 0.03;
-        e.y += 3.4;
-        e.x += Math.sin(e.diveTime * 3) * 3.5;
+        e.y += 3.2;
+        e.x += Math.sin(e.diveTime * 3) * 3;
         if (Math.random() < 0.02) {
-          enemyLasers.push({ x: e.x, y: e.y + 10, speed: 4.8 });
+          enemyLasers.push({ x: e.x, y: e.y + 10, speed: 4.5 });
         }
         if (e.y > H + 30) {
           e.y = -30;
@@ -959,13 +857,12 @@
             score += e.state === 'DIVING' ? 100 : 50;
             scoreVal.textContent = String(score).padStart(6, '0');
             
-            // Random powerup drops
-            const roll = Math.random();
-            if (roll < 0.04) {
+            let rand = Math.random();
+            if (rand < 0.04) {
               powerups.push({ x: e.x, y: e.y, type: 'SHIELD', collected: false });
-            } else if (roll < 0.08) {
+            } else if (rand < 0.08) {
               powerups.push({ x: e.x, y: e.y, type: 'DUAL', collected: false });
-            } else if (roll < 0.11) {
+            } else if (rand < 0.12) {
               powerups.push({ x: e.x, y: e.y, type: 'EMP', collected: false });
             }
           }
@@ -1003,17 +900,10 @@
   }
 
   function handlePlayerHit() {
-    if (player.shield > 0) {
-      player.shield--;
-      audio.shieldHit();
-      spawnFloatingText(player.x, player.y - 15, "SHIELD ABSORBED HIT!", "#3b82f6");
-      for (let i = 0; i < 10; i++) {
-        particles.push({
-          x: player.x, y: player.y,
-          vx: (Math.random() - 0.5) * 5, vy: (Math.random() - 0.5) * 5,
-          life: 0.6, color: '#3b82f6'
-        });
-      }
+    if (player.shields > 0) {
+      player.shields--;
+      audio.playTone(400, 'square', 0.2);
+      addPopup('SHIELD ABSORBED HIT!', player.x, player.y - 20, '#22d3ee');
       return;
     }
 
@@ -1045,22 +935,26 @@
     ctx.globalAlpha = 1.0;
 
     if (gameState === 'PLAYING') {
-      drawPlayerShip(player.x, player.y);
-      if (player.dual) {
-        drawPlayerShip(player.x - 16, player.y + 4, 0.85);
-      }
-
-      // Draw active shield aura around player
-      if (player.shield > 0) {
-        ctx.save();
-        ctx.strokeStyle = '#3b82f6';
-        ctx.shadowColor = '#3b82f6';
-        ctx.shadowBlur = 10;
-        ctx.lineWidth = 2;
+      ctx.strokeStyle = themeColor;
+      ctx.lineWidth = 2;
+      const drawShip = (x, y) => {
         ctx.beginPath();
-        ctx.arc(player.x, player.y, 20 + Math.sin(Date.now() * 0.01) * 2, 0, Math.PI * 2);
+        ctx.moveTo(x, y - 12);
+        ctx.lineTo(x - 10, y + 10);
+        ctx.lineTo(x, y + 4);
+        ctx.lineTo(x + 10, y + 10);
+        ctx.closePath();
         ctx.stroke();
-        ctx.restore();
+      };
+      drawShip(player.x, player.y);
+      if (player.dual) drawShip(player.x - 16, player.y + 4);
+
+      if (player.shields > 0) {
+        ctx.strokeStyle = '#22d3ee';
+        ctx.lineWidth = 1.5;
+        ctx.beginPath();
+        ctx.arc(player.x, player.y, 18, 0, Math.PI * 2);
+        ctx.stroke();
       }
     }
 
@@ -1070,14 +964,54 @@
     ctx.fillStyle = '#ff3344';
     enemyLasers.forEach(el => ctx.fillRect(el.x - 1.5, el.y, 3, 8));
 
-    // Render drop items
-    powerups.forEach(p => drawPowerupIcon(p));
+    powerups.forEach(p => {
+      let col = p.type === 'DUAL' ? '#fbbf24' : (p.type === 'SHIELD' ? '#22d3ee' : '#33ff66');
+      ctx.strokeStyle = col;
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.arc(p.x, p.y, 8, 0, Math.PI * 2);
+      ctx.stroke();
+      ctx.fillStyle = col;
+      ctx.font = 'bold 8px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(p.type[0], p.x, p.y + 3);
+    });
 
-    // Render Enemies
+    popups.forEach(p => {
+      ctx.fillStyle = p.color;
+      ctx.globalAlpha = p.opacity;
+      ctx.font = 'bold 10px monospace';
+      ctx.textAlign = 'center';
+      ctx.fillText(p.text, p.x, p.y);
+    });
+    ctx.globalAlpha = 1.0;
+
     enemies.forEach(e => {
-      if (e.type === 'boss') drawBossGalaga(e.x, e.y);
-      else if (e.type === 'goei') drawGoei(e.x, e.y);
-      else drawZako(e.x, e.y, themeColor);
+      ctx.lineWidth = 1.5;
+      if (e.type === 'boss') {
+        ctx.strokeStyle = '#ff3344';
+        ctx.beginPath();
+        ctx.moveTo(e.x - 8, e.y - 8);
+        ctx.lineTo(e.x, e.y - 4);
+        ctx.lineTo(e.x + 8, e.y - 8);
+        ctx.lineTo(e.x + 10, e.y + 6);
+        ctx.lineTo(e.x - 10, e.y + 6);
+        ctx.closePath();
+        ctx.stroke();
+      } else if (e.type === 'goei') {
+        ctx.strokeStyle = '#22d3ee';
+        ctx.beginPath();
+        ctx.arc(e.x, e.y, 7, 0, Math.PI * 2);
+        ctx.stroke();
+      } else {
+        ctx.strokeStyle = themeColor;
+        ctx.beginPath();
+        ctx.moveTo(e.x, e.y - 8);
+        ctx.lineTo(e.x + 8, e.y + 8);
+        ctx.lineTo(e.x - 8, e.y + 8);
+        ctx.closePath();
+        ctx.stroke();
+      }
     });
 
     particles.forEach(p => {
@@ -1087,25 +1021,13 @@
     });
     ctx.globalAlpha = 1.0;
 
-    // Render floating status texts
-    floatingTexts.forEach(ft => {
-      ctx.save();
-      ctx.globalAlpha = ft.life;
-      ctx.fillStyle = ft.color;
-      ctx.font = 'bold 11px monospace';
-      ctx.textAlign = 'center';
-      ctx.fillText(ft.text, ft.x, ft.y);
-      ctx.restore();
-    });
-
-    // On-screen overlay messages
     if (gameState === 'START') {
       ctx.fillStyle = themeColor;
       ctx.font = 'bold 18px monospace';
       ctx.textAlign = 'center';
       ctx.fillText('GALAGA TERMINAL', W / 2, H / 2 - 20);
       ctx.font = '11px monospace';
-      ctx.fillText('TOUCH CANVAS OR PRESS SPACE TO START', W / 2, H / 2 + 20);
+      ctx.fillText('PRESS FIRE OR TAP CANVAS TO START', W / 2, H / 2 + 20);
     } else if (gameState === 'GAMEOVER') {
       ctx.fillStyle = '#ff3344';
       ctx.font = 'bold 22px monospace';
@@ -1182,11 +1104,10 @@
     autoFireBtn.textContent = autoFire ? '⚡ AUTO-FIRE: ON' : '⚡ AUTO-FIRE: OFF';
   });
 
-  fullscreenBtn.addEventListener('click', () => {
-    isFullscreen = !isFullscreen;
-    document.body.classList.toggle('fullscreen-mode', isFullscreen);
-    fullscreenBtn.textContent = isFullscreen ? '🗗 RESTORE' : '⛶ EXPAND';
-    setTimeout(resizeCanvasToDisplay, 100);
+  controlsToggleBtn.addEventListener('click', () => {
+    showControls = !showControls;
+    controlsPanel.classList.toggle('hidden', !showControls);
+    controlsToggleBtn.textContent = showControls ? '🎮 CONTROLS: SHOW' : '🎮 CONTROLS: HIDE';
   });
 
   const handleCanvasTouch = e => {
@@ -1218,16 +1139,17 @@
   audioBtn.addEventListener('click', () => {
     audio.init();
     audio.muted = !audio.muted;
-    audioBtn.textContent = audio.muted ? '🔇 AUDIO: OFF' : '🔊 AUDIO: ON';
+    audioBtn.textContent = audio.muted ? 'ffff AUDIO: OFF' : '🔊 AUDIO: ON';
   });
 
   crtBtn.addEventListener('click', () => {
     crtOn = !crtOn;
     crtLayer.style.display = crtOn ? 'block' : 'none';
-    crtBtn.textContent = crtOn ? '📺 CRT' : '📺 CRT: OFF';
+    crtBtn.textContent = crtOn ? '📺 CRT: ON' : '📺 CRT: OFF';
   });
 
   requestAnimationFrame(gameLoop);
 </script>
 </body>
 </html>
+
